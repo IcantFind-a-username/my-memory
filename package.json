@@ -1,0 +1,39 @@
+{
+  "name": "personal-memory",
+  "version": "0.1.0",
+  "description": "Privacy-first personal memory for any AI: your notes stay on your device; each chat borrows only a few relevant lines.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IcantFind-a-username/my-memory.git"
+  },
+  "homepage": "https://github.com/IcantFind-a-username/my-memory#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "personal-memory-mcp": "src/mcp/server.js"
+  },
+  "files": [
+    "src",
+    "skill",
+    "docs/PRIVACY.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "demo": "node scripts/demo.js",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "memory",
+    "mcp",
+    "agent-skill",
+    "privacy",
+    "local-first",
+    "mental-health",
+    "dissociation"
+  ]
+}

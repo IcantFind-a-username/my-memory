@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<title>我的记忆 · Personal Memory</title>
+<style>
+  :root { --bg:#f7f5f0; --card:#fffdf8; --ink:#27251f; --muted:#6b675c; --line:#e3ded2; --accent:#3f6f5a; --accent-ink:#fff; --warn:#8a4b2a; --soft:#eef3ef; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1b1c1a; --card:#242623; --ink:#ecebe6; --muted:#a6a398; --line:#3a3c37; --accent:#7fb89c; --accent-ink:#10150f; --warn:#e0a07a; --soft:#2b322d; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font: 17px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 16px 16px 64px; }
+  header { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  h1 { font-size: 22px; margin: 8px 0; font-weight: 650; }
+  .sub { color: var(--muted); font-size: 15px; margin: 0 0 12px; }
+  nav { display:flex; gap:6px; flex-wrap: wrap; margin: 12px 0 16px; }
+  nav button { flex: 1 1 auto; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 10px 14px; border-radius: 12px; cursor: pointer; min-height: 44px; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  button[aria-selected="true"] { background: var(--soft); border-color: var(--accent); font-weight: 600; }
+  button.link { border: none; background: none; color: var(--accent); padding: 4px; min-height: auto; text-decoration: underline; }
+  textarea, input[type=search], select { font: inherit; width: 100%; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 12px; padding: 12px; }
+  textarea { min-height: 110px; resize: vertical; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin: 12px 0; }
+  .row { display:flex; gap:8px; flex-wrap: wrap; align-items:center; margin-top: 10px; }
+  .muted { color: var(--muted); font-size: 15px; }
+  .chips button { padding: 6px 12px; min-height: 36px; font-size: 15px; }
+  label.check { display:flex; gap:10px; align-items:flex-start; padding: 6px 0; }
+  label.check input { width: 20px; height: 20px; margin-top: 4px; flex: none; }
+  pre { white-space: pre-wrap; word-break: break-word; font-size: 14px; background: var(--soft); padding: 10px; border-radius: 10px; }
+  .entry { border-top: 1px solid var(--line); padding: 10px 0; }
+  .entry:first-child { border-top: none; }
+  .badge { display:inline-block; font-size: 13px; padding: 1px 8px; border-radius: 999px; background: var(--soft); color: var(--muted); margin-right: 4px; }
+  .badge.private { color: var(--warn); }
+  .notice { font-size: 15px; color: var(--muted); border-left: 3px solid var(--accent); padding-left: 10px; }
+  [hidden] { display: none !important; }
+  .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 data-t="title"></h1>
+    <button class="link" id="langBtn"></button>
+  </header>
+  <p class="sub" data-t="subtitle"></p>
+
+  <nav role="tablist">
+    <button role="tab" data-tab="ask" data-t="tabAsk"></button>
+    <button role="tab" data-tab="save" data-t="tabSave"></button>
+    <button role="tab" data-tab="paste" data-t="tabPaste"></button>
+    <button role="tab" data-tab="mine" data-t="tabMine"></button>
+  </nav>
+
+  <section id="ask" role="tabpanel">
+    <textarea id="q" data-ph="askPh"></textarea>
+    <div class="row"><button class="primary" id="prepare" data-t="prepare"></button></div>
+    <div id="askOut" hidden class="card">
+      <div id="askMsg" class="muted"></div>
+      <div id="units"></div>
+      <div class="row">
+        <button class="primary" id="copy" data-t="copy"></button>
+        <button id="copyPlain" data-t="copyPlain"></button>
+      </div>
+      <details><summary class="muted" data-t="showRaw"></summary><pre id="raw"></pre></details>
+    </div>
+  </section>
+
+  <section id="save" role="tabpanel" hidden>
+    <textarea id="w" data-ph="savePh"></textarea>
+    <div class="row chips" id="kinds"></div>
+    <label class="check"><input type="checkbox" id="private"><span data-t="privateLabel"></span></label>
+    <div class="row"><button class="primary" id="saveBtn" data-t="save"></button></div>
+    <div id="saveOut" class="card" hidden></div>
+  </section>
+
+  <section id="paste" role="tabpanel" hidden>
+    <p class="muted" data-t="pasteHelp"></p>
+    <textarea id="p" data-ph="pastePh"></textarea>
+    <div class="row"><button class="primary" id="parseBtn" data-t="parse"></button></div>
+    <div id="cands" class="card" hidden></div>
+  </section>
+
+  <section id="mine" role="tabpanel" hidden>
+    <input type="search" id="filter" data-ph="filterPh">
+    <div id="list" class="card"></div>
+    <div class="card">
+      <div class="row">
+        <button id="expBtn" data-t="exportAll"></button>
+        <button id="impBtn" data-t="import"></button>
+        <input type="file" id="impFile" accept="application/json,.json" hidden>
+      </div>
+      <label class="check"><input type="checkbox" id="shareSens"><span data-t="shareSens"></span></label>
+      <div class="row"><span class="muted" data-t="budgetLabel"></span>
+        <select id="budget" style="width:auto"><option value="150">150</option><option value="300">300</option><option value="500">500</option></select>
+      </div>
+      <p class="notice" id="storageNote"></p>
+      <button class="link" id="logBtn" data-t="showLog"></button>
+      <pre id="log" hidden></pre>
+    </div>
+  </section>
+</main>
+
+<script>
+/*__CORE__*/
+</script>
+<script>
+(() => {
+  'use strict';
+  const T = {
+    zh: {
+      title: '我的记忆', subtitle: '记忆只存在这台设备上。问任何 AI 之前，只带上和这次有关的一小部分。',
+      tabAsk: '问 AI 之前', tabSave: '记下来', tabPaste: '保存 AI 的建议', tabMine: '我的记忆',
+      askPh: '想问 AI 什么？例如：我现在又觉得很麻木，不知道为什么。', prepare: '看看该带哪些记忆',
+      copy: '复制，去粘贴给 AI', copyPlain: '只复制问题，不带记忆', showRaw: '查看将要复制的原文',
+      notNeeded: '这个问题好像不需要你的记忆。', searchAnyway: '仍然查找', nothing: '没有找到相关的记忆。',
+      willShare: (n) => `会带上下面这些（约 ${n} token），可以取消勾选：`, copied: '已复制，去 AI 对话框里粘贴吧',
+      savePh: '写下想记住的事，用你自己的话。例如：最近睡得很差，今天出去散步后感觉好了一点。',
+      kindAuto: '自动判断', kindAnchor: '现实锚点', kindFuture: '给未来的自己', kindPlan: '支持计划', kindRel: '重要的人',
+      privateLabel: '只给我自己看（任何 AI 都看不到这条）', save: '保存', saved: '已保存。我理解为：', empty: '先写点什么吧',
+      pasteHelp: '复制记忆给 AI 时，会请 AI 把值得记住的内容写成【记忆候选】。把 AI 的回答粘贴到这里，由你决定保存哪些。',
+      pastePh: '把 AI 的回答粘贴到这里', parse: '找出记忆候选', noCands: '没有找到【记忆候选】。', saveSel: '保存勾选的',
+      candNote: '这些是 AI 写的，保存后会标记为「AI 整理」。默认都不勾选。',
+      filterPh: '搜索我的记忆', exportAll: '导出备份（JSON + 可读版）', import: '导入备份',
+      shareSens: '允许把标为「敏感」的记录带给 AI（「只给我自己看」的永远不会）', budgetLabel: '每次最多带多少记忆（token）：',
+      storage: '你的记忆只保存在这台设备的这个浏览器里，不会上传到任何地方。清除浏览器数据会删掉它们，请定期「导出备份」。',
+      storageMem: '⚠️ 这个浏览器不允许本地存储：关闭页面后记忆会丢失。请用 Chrome/Edge/Firefox 打开，或随时导出备份。',
+      showLog: '查看访问记录', del: '删除', confirmDel: '确定删除这条记忆吗？删除后无法恢复。',
+      sens: { normal: '普通', sensitive: '敏感', restricted: '仅自己' }, imported: (n) => `导入了 ${n} 条`, noEntries: '还没有记忆。',
+      question: '我的问题：',
+      candidateAsk: '（如果这次对话里有值得我长期记住的内容，请在回答最后用这个格式列出，我会自己决定要不要保存：【记忆候选】类型：…；内容：…（尽量用我的原话）【/记忆候选】）',
+      kinds: { event: '事件', state: '感受', reflection: '体会', anchor: '锚点', coping: '方法', future_message: '给未来', relationship: '关系', support_plan: '支持计划' },
+      aiMade: 'AI 整理',
+    },
+    en: {
+      title: 'My Memory', subtitle: 'Your memory stays on this device. Before asking any AI, bring only the small part that matters.',
+      tabAsk: 'Before asking AI', tabSave: 'Remember', tabPaste: 'Save AI suggestions', tabMine: 'My memory',
+      askPh: 'What do you want to ask an AI? e.g. I feel numb again and I don\'t know why.', prepare: 'Which memories should come along?',
+      copy: 'Copy, then paste into any AI', copyPlain: 'Copy the question only', showRaw: 'Show the exact text to be copied',
+      notNeeded: 'This question does not seem to need your memory.', searchAnyway: 'Search anyway', nothing: 'No relevant memories found.',
+      willShare: (n) => `These will come along (~${n} tokens). Untick anything you don't want to share:`, copied: 'Copied. Paste it into your AI chat.',
+      savePh: 'Write what you want to keep, in your own words. e.g. Sleeping badly lately; a walk today helped a little.',
+      kindAuto: 'Auto', kindAnchor: 'Reality anchor', kindFuture: 'To my future self', kindPlan: 'Support plan', kindRel: 'Important person',
+      privateLabel: 'Only for me (no AI will ever see this note)', save: 'Save', saved: 'Saved. I understood:', empty: 'Write something first',
+      pasteHelp: 'When you copy memories to an AI, it is asked to list anything worth keeping as [MEMORY CANDIDATE]. Paste its answer here and choose what to keep.',
+      pastePh: 'Paste the AI\'s answer here', parse: 'Find memory candidates', noCands: 'No [MEMORY CANDIDATE] found.', saveSel: 'Save selected',
+      candNote: 'These were written by an AI and will be marked "AI-written". Nothing is ticked by default.',
+      filterPh: 'Search my memory', exportAll: 'Export backup (JSON + readable)', import: 'Import backup',
+      shareSens: 'Allow notes marked "sensitive" to be shared with AI ("only for me" notes never are)', budgetLabel: 'Max memory per question (tokens):',
+      storage: 'Your memory is stored only in this browser on this device and is never uploaded. Clearing browser data deletes it, so export a backup now and then.',
+      storageMem: '⚠️ This browser blocks local storage: memories will be lost when you close the page. Use Chrome/Edge/Firefox or export often.',
+      showLog: 'Show access log', del: 'Delete', confirmDel: 'Delete this memory? This cannot be undone.',
+      sens: { normal: 'normal', sensitive: 'sensitive', restricted: 'only me' }, imported: (n) => `Imported ${n}`, noEntries: 'No memories yet.',
+      question: 'My question: ',
+      candidateAsk: '(If anything in this chat is worth me keeping long-term, list it at the end like this and I will decide myself: [MEMORY CANDIDATE] type: …; content: … (in my own words) [/MEMORY CANDIDATE])',
+      kinds: { event: 'event', state: 'feeling', reflection: 'reflection', anchor: 'anchor', coping: 'what helped', future_message: 'to future me', relationship: 'person', support_plan: 'support plan' },
+      aiMade: 'AI-written',
+    },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const settings = (() => { try { return JSON.parse(localStorage.getItem('pm-settings') || '{}'); } catch { return {}; } })();
+  let lang = settings.lang || ((navigator.language || '').startsWith('zh') ? 'zh' : 'en');
+  const t = (k) => T[lang][k];
+  const saveSettings = () => { try { localStorage.setItem('pm-settings', JSON.stringify(settings)); } catch {} };
+
+  function toast(msg) {
+    const el = document.createElement('div');
+    el.className = 'toast'; el.textContent = msg; document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2200);
+  }
+
+  // Storage: IndexedDB in this browser only; falls back to memory with a visible warning.
+  function idbStorage() {
+    const open = new Promise((res, rej) => {
+      const r = indexedDB.open('personal-memory', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+    const tx = async (mode, fn) => { const db = await open; return new Promise((res, rej) => { const s = db.transaction('kv', mode).objectStore('kv'); const q = fn(s); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); };
+    const get = (k) => tx('readonly', (s) => s.get(k)).then((v) => v ?? null);
+    const put = (k, v) => tx('readwrite', (s) => s.put(v, k));
+    return {
+      location: 'browser', ready: open,
+      load: () => get('doc'),
+      save: (doc) => put('doc', structuredClone(doc)),
+      appendAudit: async (ev) => { const a = (await get('audit')) || []; a.push(ev); await put('audit', a.slice(-500)); },
+      readAudit: async (n) => ((await get('audit')) || []).slice(-n),
+      writeExport: async (name, text) => { download(name, text); return name; },
+    };
+  }
+  function memoryOnlyStorage() {
+    let doc = null; const audit = [];
+    return { location: 'memory', load: async () => doc, save: async (d) => { doc = structuredClone(d); }, appendAudit: async (e) => { audit.push(e); }, readAudit: async (n) => audit.slice(-n), writeExport: async (name, text) => { download(name, text); return name; } };
+  }
+  function download(name, text) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: name.endsWith('.json') ? 'application/json' : 'text/markdown' }));
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  let storage;
+  let memory;
+  function makeMemory() {
+    memory = PM.createMemory({ storage, via: 'capsule', policy: { shareSensitive: !!settings.shareSensitive, budget: Number(settings.budget) || 300, maxBudget: 500 } });
+  }
+
+  // ---------- Ask ----------
+  let lastQuery = '';
+  let excluded = new Set();
+  let current = null;
+  async function prepare(force = false) {
+    const q = $('q').value.trim();
+    if (!q) return toast(t('empty'));
+    if (q !== lastQuery) { excluded = new Set(); lastQuery = q; }
+    current = await memory.recall({ query: q, headerLang: lang, withIds: false, exclude: [...excluded], force });
+    const units = $('units'); units.textContent = '';
+    $('askOut').hidden = false;
+    if (!current.need) {
+      $('askMsg').textContent = t('notNeeded') + ' ';
+      const b = document.createElement('button'); b.className = 'link'; b.textContent = t('searchAnyway'); b.onclick = () => prepare(true);
+      $('askMsg').appendChild(b);
+      current = null; $('raw').textContent = ''; return;
+    }
+    const shown = current.units.length ? current.units : [];
+    $('askMsg').textContent = shown.length ? t('willShare')(current.tokens) : t('nothing');
+    for (const u of shown) addUnitRow(units, u, true);
+    for (const key of excluded) {
+      const u = lastUnits.get(key); if (u) addUnitRow(units, u, false);
+    }
+    for (const u of shown) lastUnits.set(u.key, u);
+    $('raw').textContent = copyText(true);
+  }
+  const lastUnits = new Map();
+  function addUnitRow(parent, u, checked) {
+    const row = document.createElement('label'); row.className = 'check';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = checked;
+    cb.onchange = () => { if (cb.checked) excluded.delete(u.key); else excluded.add(u.key); prepare(true); };
+    const span = document.createElement('span'); span.textContent = u.human;
+    row.append(cb, span); parent.appendChild(row);
+  }
+  function copyText(withMemory) {
+    const q = $('q').value.trim();
+    const parts = [];
+    if (withMemory && current && current.units.length) parts.push(current.text, '——');
+    parts.push(t('question') + q);
+    if (withMemory) parts.push(t('candidateAsk'));
+    return parts.join('\n');
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    toast(t('copied'));
+  }
+
+  // ---------- Save ----------
+  let kind = null;
+  function renderKinds() {
+    const box = $('kinds'); box.textContent = '';
+    for (const [k, label] of [[null, 'kindAuto'], ['anchor', 'kindAnchor'], ['future_message', 'kindFuture'], ['support_plan', 'kindPlan'], ['relationship', 'kindRel']]) {
+      const b = document.createElement('button'); b.textContent = t(label); b.setAttribute('aria-selected', String(kind === k));
+      b.onclick = () => { kind = k; renderKinds(); }; box.appendChild(b);
+    }
+  }
+  async function save() {
+    const words = $('w').value.trim();
+    if (!words) return toast(t('empty'));
+    try {
+      const r = await memory.remember({ words, consent: 'user_asked', kind: kind || undefined, sensitivity: $('private').checked ? 'restricted' : undefined });
+      const out = $('saveOut'); out.hidden = false; out.textContent = '';
+      const h = document.createElement('div'); h.textContent = r.duplicate ? r.text : t('saved'); out.appendChild(h);
+      if (r.entry) for (const it of r.entry.items) {
+        const d = document.createElement('div'); d.className = 'muted';
+        d.textContent = `· ${T[lang].kinds[it.kind]}：${it.text}${it.strategy ? ` → ${it.strategy} ${it.effect > 0 ? '+' : it.effect === 0 ? '0' : '−'}` : ''}${it.signals ? ` → ${it.signals.map((s) => `${s.dim}:${s.val}`).join(', ')}` : ''}`;
+        out.appendChild(d);
+      }
+      $('w').value = ''; $('private').checked = false; kind = null; renderKinds();
+    } catch (e) { toast(e.message); }
+  }
+
+  // ---------- Paste AI candidates ----------
+  const KIND_WORDS = [[/事件|event/i, 'event'], [/感受|状态|心情|state|feeling|mood/i, 'state'], [/体会|反思|reflection/i, 'reflection'], [/锚点|anchor/i, 'anchor'],
+    [/方法|有帮助|应对|coping|helped/i, 'coping'], [/未来|future/i, 'future_message'], [/关系|人|relationship|person/i, 'relationship'], [/支持计划|计划|support|plan/i, 'support_plan']];
+  function parseCandidates(text) {
+    const re = /【\s*记忆候选\s*】([\s\S]*?)(?:【\s*\/\s*记忆候选\s*】|$)|\[\s*MEMORY CANDIDATE\s*\]([\s\S]*?)(?:\[\s*\/\s*MEMORY CANDIDATE\s*\]|$)/gi;
+    const out = [];
+    for (const m of text.matchAll(re)) {
+      const body = (m[1] || m[2] || '').trim();
+      if (!body) continue;
+      const kindM = body.match(/(?:类型|type)\s*[:：]\s*([^；;\n]+)/i);
+      const contentM = body.match(/(?:内容|content)\s*[:：]\s*([\s\S]+)/i);
+      const content = (contentM ? contentM[1] : body).trim().slice(0, 1000);
+      const k = kindM ? (KIND_WORDS.find(([r]) => r.test(kindM[1])) || [])[1] : undefined;
+      if (content) out.push({ content, kind: k });
+    }
+    return out.slice(0, 20);
+  }
+  function showCandidates() {
+    const box = $('cands'); box.hidden = false; box.textContent = '';
+    const cands = parseCandidates($('p').value);
+    if (!cands.length) { box.textContent = t('noCands'); return; }
+    const note = document.createElement('p'); note.className = 'muted'; note.textContent = t('candNote'); box.appendChild(note);
+    const boxes = cands.map((c) => {
+      const row = document.createElement('label'); row.className = 'check';
+      const cb = document.createElement('input'); cb.type = 'checkbox';
+      const span = document.createElement('span'); span.textContent = `${c.kind ? `[${T[lang].kinds[c.kind]}] ` : ''}${c.content}`;
+      row.append(cb, span); box.appendChild(row); return { cb, c };
+    });
+    const b = document.createElement('button'); b.className = 'primary'; b.textContent = t('saveSel');
+    b.onclick = async () => {
+      let n = 0;
+      for (const { cb, c } of boxes) if (cb.checked) {
+        try { await memory.remember({ words: c.content, consent: 'user_confirmed', kind: c.kind, origin: 'ai_candidate' }); n++; } catch (e) { toast(e.message); }
+      }
+      toast(`${t('saved').replace(/[:：]$/, '')} ${n}`); $('p').value = ''; box.hidden = true;
+    };
+    box.appendChild(b);
+  }
+
+  // ---------- Mine ----------
+  async function renderList() {
+    const list = $('list'); list.textContent = '';
+    const f = $('filter').value.trim().toLowerCase();
+    const entries = (await memory.listForOwner()).slice().reverse().filter((e) => !f || e.words.toLowerCase().includes(f)).slice(0, 200);
+    if (!entries.length) { list.textContent = t('noEntries'); return; }
+    for (const e of entries) {
+      const div = document.createElement('div'); div.className = 'entry';
+      const meta = document.createElement('div'); meta.className = 'muted';
+      meta.append(`${e.day}  `);
+      for (const k of [...new Set(e.items.map((i) => i.kind))]) { const b = document.createElement('span'); b.className = 'badge'; b.textContent = T[lang].kinds[k]; meta.append(b); }
+      if (e.origin === 'ai_candidate') { const b = document.createElement('span'); b.className = 'badge'; b.textContent = t('aiMade'); meta.append(b); }
+      const words = document.createElement('div'); words.textContent = e.words;
+      const row = document.createElement('div'); row.className = 'row';
+      const sel = document.createElement('select'); sel.style.width = 'auto';
+      for (const s of ['normal', 'sensitive', 'restricted']) { const o = document.createElement('option'); o.value = s; o.textContent = T[lang].sens[s]; o.selected = e.sensitivity === s; sel.appendChild(o); }
+      sel.onchange = async () => { await memory.setSensitivity(e.id, sel.value); renderList(); };
+      const del = document.createElement('button'); del.textContent = t('del');
+      del.onclick = async () => { if (confirm(t('confirmDel'))) { await memory.forget({ id: e.id }); renderList(); } };
+      row.append(sel, del);
+      div.append(meta, words, row); list.appendChild(div);
+    }
+  }
+
+  // ---------- Shell ----------
+  function applyLang() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = `${t('title')} · Personal Memory`;
+    for (const el of document.querySelectorAll('[data-t]')) el.textContent = t(el.dataset.t);
+    for (const el of document.querySelectorAll('[data-ph]')) el.placeholder = t(el.dataset.ph);
+    $('langBtn').textContent = lang === 'zh' ? 'English' : '中文';
+    $('storageNote').textContent = storage && storage.location === 'memory' ? t('storageMem') : t('storage');
+    renderKinds();
+  }
+  function showTab(name) {
+    for (const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === name));
+    for (const s of document.querySelectorAll('[role=tabpanel]')) s.hidden = s.id !== name;
+    if (name === 'mine') renderList();
+  }
+
+  async function init() {
+    try { storage = idbStorage(); await storage.ready; } catch { storage = memoryOnlyStorage(); }
+    try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch {}
+    makeMemory();
+    $('shareSens').checked = !!settings.shareSensitive;
+    $('budget').value = String(settings.budget || 300);
+    applyLang(); showTab('ask');
+    for (const b of document.querySelectorAll('[data-tab]')) b.onclick = () => showTab(b.dataset.tab);
+    $('langBtn').onclick = () => { lang = lang === 'zh' ? 'en' : 'zh'; settings.lang = lang; saveSettings(); applyLang(); };
+    $('prepare').onclick = () => prepare(false);
+    $('copy').onclick = () => copy(copyText(true));
+    $('copyPlain').onclick = () => copy(copyText(false));
+    $('saveBtn').onclick = save;
+    $('parseBtn').onclick = showCandidates;
+    $('filter').oninput = renderList;
+    $('expBtn').onclick = () => memory.exportAll();
+    $('impBtn').onclick = () => $('impFile').click();
+    $('impFile').onchange = async () => {
+      const f = $('impFile').files[0]; if (!f) return;
+      try { const r = await memory.importDoc(JSON.parse(await f.text())); toast(t('imported')(r.added)); renderList(); } catch (e) { toast(e.message); }
+      $('impFile').value = '';
+    };
+    $('shareSens').onchange = () => { settings.shareSensitive = $('shareSens').checked; saveSettings(); makeMemory(); };
+    $('budget').onchange = () => { settings.budget = Number($('budget').value); saveSettings(); makeMemory(); };
+    $('logBtn').onclick = async () => { $('log').hidden = !$('log').hidden; $('log').textContent = (await memory.accessLog(30)).text; };
+  }
+  init();
+})();
+</script>
+</body>
+</html>

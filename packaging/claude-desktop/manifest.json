@@ -1,0 +1,94 @@
+{
+  "manifest_version": "0.3",
+  "name": "personal-memory",
+  "display_name": "Personal Memory · 我的记忆",
+  "version": "0.0.0",
+  "description": "Your own long-term memory, kept on your device. Each chat borrows only a few relevant lines, with your consent.",
+  "long_description": "Personal Memory keeps notes you ask it to keep (how you felt, what happened, what helped, reality anchors, messages to your future self) in one file on your computer. When you talk about yourself, Claude can borrow a tiny, relevant slice (usually under 300 tokens) instead of your whole history. Nothing is saved unless you ask or agree. Notes marked private are never shown to any AI. No account, no cloud, no tracking. Free and open source. Not a medical or therapy product.",
+  "author": {
+    "name": "Personal Memory contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IcantFind-a-username/my-memory"
+  },
+  "homepage": "https://github.com/IcantFind-a-username/my-memory",
+  "support": "https://github.com/IcantFind-a-username/my-memory/issues",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "privacy",
+    "local-first",
+    "journal",
+    "grounding",
+    "mental health",
+    "记忆"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "src/mcp/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/src/mcp/server.js"
+      ],
+      "env": {
+        "PERSONAL_MEMORY_DIR": "${user_config.data_dir}",
+        "PERSONAL_MEMORY_SHARE_SENSITIVE": "${user_config.share_sensitive}",
+        "PERSONAL_MEMORY_BUDGET": "${user_config.budget}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "remember",
+      "description": "Save something to your memory, only when you ask or agree."
+    },
+    {
+      "name": "recall",
+      "description": "Borrow a tiny, privacy-filtered slice of your memory relevant to this message."
+    },
+    {
+      "name": "forget",
+      "description": "Delete a saved note."
+    },
+    {
+      "name": "memory_info",
+      "description": "Status, access log, or export of your memory."
+    }
+  ],
+  "user_config": {
+    "data_dir": {
+      "type": "directory",
+      "title": "Memory folder",
+      "description": "Where your memory file is kept. Back up or move this folder any time.",
+      "default": "${HOME}/PersonalMemory",
+      "required": false
+    },
+    "share_sensitive": {
+      "type": "boolean",
+      "title": "Share notes marked sensitive",
+      "description": "Off by default. Notes marked private (restricted) are never shared, whatever this says.",
+      "default": false,
+      "required": false
+    },
+    "budget": {
+      "type": "number",
+      "title": "Memory per reply (tokens)",
+      "description": "The most memory Claude may borrow for one reply. Smaller shares less.",
+      "default": 300,
+      "min": 100,
+      "max": 800,
+      "required": false
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}
