@@ -17,7 +17,7 @@ learn how the system works.
 ## Tools
 
 If the tools `remember`, `recall`, `forget` and `memory_info` are available,
-use them as below. If they are not, use **Capsule mode** at the end of this
+use them as below. If they are not, see **Without memory tools** at the end of this
 file.
 
 ## Saving: never silently
@@ -99,21 +99,29 @@ code, facts about the world) and not on every turn.
   on purpose.
 - "导出" / "备份": `memory_info` with `export`; tell them where the file is.
 
-## Capsule mode (no memory tools available)
+## Without memory tools: the Memory File or the Capsule
 
-Some apps cannot install tools. The user keeps their memory in the
-**Personal Memory Capsule** page on their own device and pastes a small block
-starting with `【我的记忆】` or `MEMORY (` into the chat.
+Many apps cannot install tools. The user then brings their memory themselves,
+in one of two forms:
 
-- Treat that block exactly like a `recall` result (same markers, same rules).
-- Do not ask for more of their memory; work with what they chose to share.
-- If something from the conversation seems worth keeping, list it at the end
-  of your reply so they can save it in the capsule themselves:
+- **The Memory File** (`我的记忆.txt` / `my-memory.txt`): a whole file with its own
+  "给 AI 的说明 / Instructions for the AI" section. Follow those instructions.
+  The user chose to share the whole file; still use only what is relevant to
+  what they are talking about, and say which lines you looked at.
+- **A Capsule block** starting with `【我的记忆】` or `MEMORY (`: a small slice the
+  user picked. Treat it exactly like a `recall` result (same markers, same rules)
+  and do not ask for more.
 
-  ```
-  【记忆候选】类型：有帮助的方法；内容：（尽量用用户的原话）【/记忆候选】
-  ```
+In both cases, when the user asks you to remember something (or says yes to
+your offer), write it at the end of your reply, one per line, so they can save
+it themselves:
 
-  English: `[MEMORY CANDIDATE] type: …; content: … [/MEMORY CANDIDATE]`.
-  At most two per reply, never sensitive details, and never claim you saved
-  anything: in capsule mode, only the user saves.
+```
+【新记忆】2026-09-25｜方法｜出门走了十分钟，好受了一点（有帮助）
+```
+
+English: `[NEW MEMORY] 2026-09-25 | what helped | a 10-minute walk helped (helped)`.
+Types: 事件 event, 感受 feeling, 体会 reflection, 锚点 anchor, 方法 what helped,
+给未来的我 to future me, 重要的人 person, 支持计划 support plan. Use their own
+words, at most three per reply, no sensitive details unless they ask, and never
+claim you saved anything: in these modes, only the user saves.

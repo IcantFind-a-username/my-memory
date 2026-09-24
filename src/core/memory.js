@@ -6,6 +6,7 @@ import { analyzeQuery, planSlots } from './query.js';
 import { buildView, lexIndex, bm25, tokenize } from './layers.js';
 import { buildUnits } from './retrieve.js';
 import { compile } from './compile.js';
+import { memoryFile, parseMemoryFile } from './memfile.js';
 import { dayNumber, dayKey, keyToDay, newId, clamp, safeQuote, agoCode, agoHuman, detectLang, systemTzOffset, estimateTokens } from './util.js';
 
 export const FORMAT = 'personal-memory';
@@ -282,8 +283,64 @@ export function createMemory({ storage, policy = {}, via = 'mcp', clock = () => 
       const md = toMarkdown(doc, today());
       const jsonPath = await storage.writeExport(`personal-memory-${stamp}.json`, json);
       const mdPath = await storage.writeExport(`personal-memory-${stamp}.md`, md);
+      const lang = fileLang(doc);
+      const aiPath = await storage.writeExport(lang === 'zh' ? `我的记忆-${stamp}.txt` : `my-memory-${stamp}.txt`, memoryFile(doc.entries, { lang, today: today() }).text);
       await audit({ op: 'export', notes: doc.entries.length });
-      return { paths: [jsonPath, mdPath], text: `Exported ${doc.entries.length} note(s) to the user's device:\n${jsonPath}\n${mdPath}` };
+      return {
+        paths: [jsonPath, mdPath, aiPath],
+        text: `Exported ${doc.entries.length} note(s) to the user's device:\n${jsonPath} (full backup)\n${mdPath} (readable)\n${aiPath} (memory file to send to any AI; private notes left out)`,
+      };
+    },
+
+    /** The Memory File to send to any AI: instructions + summary + notes. Restricted notes never included. */
+    async exportForAI({ lang, includeSensitive = false, maxNotes = 400 } = {}) {
+      const doc = await load();
+      const out = memoryFile(doc.entries, { lang: lang || fileLang(doc), today: today(), includeSensitive, maxNotes });
+      await audit({ op: 'export_ai', notes: out.notes, compressed: out.compressed, tokens: out.tokens, includeSensitive });
+      return out;
+    },
+
+    /** Read note lines from a Memory File or from pasted AI replies ("【新记忆】…"). */
+    async importMemoryFile(text) {
+      return this.importNotes(parseMemoryFile(text, dayKey(today())));
+    },
+
+    /** Save notes the user chose to keep: [{ day, kind, words, origin, sensitivity }]. */
+    async importNotes(lines) {
+      const doc = await load();
+      const existing = new Set(doc.entries.map((e) => `${e.day}|${e.words}`));
+      const ids = new Set(doc.entries.map((e) => e.id));
+      const added = [];
+      for (const line of lines) {
+        if (!line || typeof line.words !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(line.day || '')) continue;
+        const parsed = parseEntry(line.words.slice(0, 4000), { kind: line.kind, sensitivity: line.sensitivity });
+        if (!parsed.items.length || existing.has(`${line.day}|${parsed.words}`)) continue;
+        const entry = {
+          id: newId(ids, randomBytes),
+          savedAt: clock().toISOString(),
+          day: line.day,
+          words: parsed.words,
+          consent: 'user_confirmed',
+          origin: line.origin === 'ai_candidate' ? 'ai_candidate' : 'user_words',
+          via: 'file',
+          sensitivity: parsed.sensitivity,
+          important: parsed.important,
+          items: parsed.items,
+          parser: PARSER_VERSION,
+          hints: line.kind ? { kind: line.kind } : {},
+          aiSummary: null,
+        };
+        ids.add(entry.id);
+        existing.add(`${line.day}|${parsed.words}`);
+        doc.entries.push(entry);
+        added.push(entry);
+      }
+      if (added.length) {
+        doc.entries.sort((x, y) => (x.day === y.day ? (x.savedAt < y.savedAt ? -1 : 1) : x.day < y.day ? -1 : 1));
+        await commit(doc);
+      }
+      await audit({ op: 'import_notes', found: lines.length, added: added.length });
+      return { found: lines.length, added: added.length, entries: added };
     },
 
     /** Merge a previously exported file (e.g. moving between the capsule and the desktop app). */
@@ -323,6 +380,11 @@ export function createMemory({ storage, policy = {}, via = 'mcp', clock = () => 
       await audit({ op: 'set_sensitivity', id, level });
     },
   };
+}
+
+function fileLang(doc) {
+  const sample = doc.entries.slice(-50).map((e) => e.words).join(' ');
+  return !sample || detectLang(sample) === 'zh' ? 'zh' : 'en';
 }
 
 const KIND_LABEL = {

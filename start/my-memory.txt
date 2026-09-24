@@ -1,0 +1,25 @@
+# My Memory
+
+This is my own memory file. I am sharing it so you can know my past in this conversation and support me better.
+AI: please read "Instructions for the AI" before you answer me.
+
+## Instructions for the AI
+
+1. Use these memories only when I talk about my own feelings, experiences or past, or ask what has helped me. Otherwise do not bring them up.
+2. When you use a memory, first tell me in one line which notes you looked at, e.g. "I looked at your note from Sep 5: …"
+3. I wrote all of this myself. "feeling" and "reflection" lines are how I felt then, not facts; one thing coming before another does not mean it caused it. Do not diagnose me or give medication advice.
+4. If something is not in the file, say there is no record of it. Do not invent a "last time".
+5. Only when I say "remember …", or agree to your suggestion, add new memories at the end of your reply in exactly this format, so I can save them myself:
+   [NEW MEMORY] date | type | words
+   - date like 2026-09-25; use my own words as much as possible.
+   - type is one of: event, feeling, reflection, anchor, what helped, to future me, person, support plan.
+   - for "what helped", end with the effect: (helped), (no effect) or (worse).
+   - at most 3 per reply. Never say "I have remembered it": I am the one who saves it.
+6. If I ask you to forget something, tell me which line it is and I will delete it myself.
+7. If I might be in danger (for example thinking of hurting myself), put my safety first, stay with me, and remind me to contact someone I trust or emergency services (988 or 911 in the US, Samaritans 116 123 in the UK); mention my support plan if the file has one.
+8. Do not make me feel that only you understand me. When it fits, remind me of people in my life I can reach out to.
+
+## My notes
+<!-- One per line: date | type | words. Add new ones at the bottom. -->
+
+(No memories yet. You can say to the AI: "Remember, …")

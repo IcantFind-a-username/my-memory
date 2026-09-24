@@ -3,19 +3,22 @@
 //   dist/personal-memory-capsule.html   Universal Memory Capsule (single offline file)
 //   dist/personal-memory.mcpb           Claude Desktop extension (local MCP server)
 //   dist/personal-memory-skill.zip      Agent Skill (behaviour guide for skill-capable AIs)
+// and the blank Memory Files anyone can download and send to an AI:
+//   start/我的记忆.txt, start/my-memory.txt  (committed, so they can be linked directly)
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { zip } from './zip.js';
+import { memoryFile } from '../src/core/memfile.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 
 // Dependency order of the core modules (each only imports from earlier ones).
-export const CORE_ORDER = ['util', 'lexicon', 'extract', 'query', 'layers', 'retrieve', 'compile', 'memory'];
-const PUBLIC_API = ['createMemory', 'analyzeQuery', 'parseEntry', 'estimateTokens', 'CORE_VERSION', 'MemoryError'];
+export const CORE_ORDER = ['util', 'lexicon', 'extract', 'query', 'layers', 'retrieve', 'compile', 'memfile', 'memory'];
+const PUBLIC_API = ['createMemory', 'analyzeQuery', 'parseEntry', 'estimateTokens', 'memoryFile', 'parseMemoryFile', 'CORE_VERSION', 'MemoryError'];
 
 /** Concatenate the ES modules into one classic script defining `PM`, each module in its own scope. */
 export function bundleCore() {
@@ -45,6 +48,21 @@ function buildCapsule() {
   const file = path.join(dist, 'personal-memory-capsule.html');
   fs.writeFileSync(file, out);
   return file;
+}
+
+export const STARTERS = { '我的记忆.txt': 'zh', 'my-memory.txt': 'en' };
+
+export function starterText(lang) {
+  return memoryFile([], { lang, today: 0 }).text;
+}
+
+function buildStarters() {
+  fs.mkdirSync(path.join(root, 'start'), { recursive: true });
+  return Object.entries(STARTERS).map(([name, lang]) => {
+    const file = path.join(root, 'start', name);
+    fs.writeFileSync(file, starterText(lang));
+    return file;
+  });
 }
 
 function listFiles(dir, base = dir) {
@@ -86,7 +104,7 @@ function buildSkill() {
 const invoked = process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(fileURLToPath(import.meta.url));
 if (invoked) {
   fs.mkdirSync(dist, { recursive: true });
-  for (const f of [buildCapsule(), buildMcpb(), buildSkill()]) {
+  for (const f of [buildCapsule(), buildMcpb(), buildSkill(), ...buildStarters()]) {
     console.log(`${path.relative(root, f)}  ${(fs.statSync(f).size / 1024).toFixed(1)} KB`);
   }
 }

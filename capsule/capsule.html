@@ -65,6 +65,16 @@
       </div>
       <details><summary class="muted" data-t="showRaw"></summary><pre id="raw"></pre></details>
     </div>
+    <div class="card">
+      <strong data-t="fileTitle"></strong>
+      <p class="muted" data-t="fileHelp"></p>
+      <label class="check"><input type="checkbox" id="fileSens"><span data-t="fileSens"></span></label>
+      <div class="row">
+        <button class="primary" id="fileDl" data-t="fileDl"></button>
+        <button id="fileCopy" data-t="fileCopy"></button>
+      </div>
+      <div id="fileMsg" class="muted"></div>
+    </div>
   </section>
 
   <section id="save" role="tabpanel" hidden>
@@ -89,7 +99,7 @@
       <div class="row">
         <button id="expBtn" data-t="exportAll"></button>
         <button id="impBtn" data-t="import"></button>
-        <input type="file" id="impFile" accept="application/json,.json" hidden>
+        <input type="file" id="impFile" accept="application/json,.json,text/plain,.txt,.md" hidden>
       </div>
       <label class="check"><input type="checkbox" id="shareSens"><span data-t="shareSens"></span></label>
       <div class="row"><span class="muted" data-t="budgetLabel"></span>
@@ -119,8 +129,8 @@
       savePh: '写下想记住的事，用你自己的话。例如：最近睡得很差，今天出去散步后感觉好了一点。',
       kindAuto: '自动判断', kindAnchor: '现实锚点', kindFuture: '给未来的自己', kindPlan: '支持计划', kindRel: '重要的人',
       privateLabel: '只给我自己看（任何 AI 都看不到这条）', save: '保存', saved: '已保存。我理解为：', empty: '先写点什么吧',
-      pasteHelp: '复制记忆给 AI 时，会请 AI 把值得记住的内容写成【记忆候选】。把 AI 的回答粘贴到这里，由你决定保存哪些。',
-      pastePh: '把 AI 的回答粘贴到这里', parse: '找出记忆候选', noCands: '没有找到【记忆候选】。', saveSel: '保存勾选的',
+      pasteHelp: 'AI 会把值得记住的内容写成【新记忆】开头的一行。把 AI 的回答（或整个记忆文件）粘贴到这里，由你决定保存哪些。',
+      pastePh: '把 AI 的回答粘贴到这里', parse: '找出新记忆', noCands: '没有找到【新记忆】。', saveSel: '保存勾选的',
       candNote: '这些是 AI 写的，保存后会标记为「AI 整理」。默认都不勾选。',
       filterPh: '搜索我的记忆', exportAll: '导出备份（JSON + 可读版）', import: '导入备份',
       shareSens: '允许把标为「敏感」的记录带给 AI（「只给我自己看」的永远不会）', budgetLabel: '每次最多带多少记忆（token）：',
@@ -129,7 +139,9 @@
       showLog: '查看访问记录', del: '删除', confirmDel: '确定删除这条记忆吗？删除后无法恢复。',
       sens: { normal: '普通', sensitive: '敏感', restricted: '仅自己' }, imported: (n) => `导入了 ${n} 条`, noEntries: '还没有记忆。',
       question: '我的问题：',
-      candidateAsk: '（如果这次对话里有值得我长期记住的内容，请在回答最后用这个格式列出，我会自己决定要不要保存：【记忆候选】类型：…；内容：…（尽量用我的原话）【/记忆候选】）',
+      candidateAsk: '（如果这次对话里有值得我长期记住的内容，请在回答最后一行一条地写出，我会自己决定要不要保存：【新记忆】日期｜类型｜内容（尽量用我的原话）。类型只用：事件、感受、体会、锚点、方法、给未来的我、重要的人、支持计划。）',
+      fileTitle: '📄 整份发给 AI（最简单）', fileHelp: '下载「我的记忆.txt」，发给任何 AI（上传文件或粘贴全文），然后像平常一样聊天。AI 会读到文件里的全部内容；标成「只给我自己看」的记录不会放进去。',
+      fileSens: '也放入「敏感」记录', fileDl: '下载 我的记忆.txt', fileCopy: '复制全文', fileDone: (n, t) => `已生成：${n} 条记忆，约 ${t} token。`,
       kinds: { event: '事件', state: '感受', reflection: '体会', anchor: '锚点', coping: '方法', future_message: '给未来', relationship: '关系', support_plan: '支持计划' },
       aiMade: 'AI 整理',
     },
@@ -143,8 +155,8 @@
       savePh: 'Write what you want to keep, in your own words. e.g. Sleeping badly lately; a walk today helped a little.',
       kindAuto: 'Auto', kindAnchor: 'Reality anchor', kindFuture: 'To my future self', kindPlan: 'Support plan', kindRel: 'Important person',
       privateLabel: 'Only for me (no AI will ever see this note)', save: 'Save', saved: 'Saved. I understood:', empty: 'Write something first',
-      pasteHelp: 'When you copy memories to an AI, it is asked to list anything worth keeping as [MEMORY CANDIDATE]. Paste its answer here and choose what to keep.',
-      pastePh: 'Paste the AI\'s answer here', parse: 'Find memory candidates', noCands: 'No [MEMORY CANDIDATE] found.', saveSel: 'Save selected',
+      pasteHelp: 'The AI writes anything worth keeping as a line starting with [NEW MEMORY]. Paste its answer (or a whole memory file) here and choose what to keep.',
+      pastePh: 'Paste the AI\'s answer here', parse: 'Find new memories', noCands: 'No [NEW MEMORY] lines found.', saveSel: 'Save selected',
       candNote: 'These were written by an AI and will be marked "AI-written". Nothing is ticked by default.',
       filterPh: 'Search my memory', exportAll: 'Export backup (JSON + readable)', import: 'Import backup',
       shareSens: 'Allow notes marked "sensitive" to be shared with AI ("only for me" notes never are)', budgetLabel: 'Max memory per question (tokens):',
@@ -153,7 +165,9 @@
       showLog: 'Show access log', del: 'Delete', confirmDel: 'Delete this memory? This cannot be undone.',
       sens: { normal: 'normal', sensitive: 'sensitive', restricted: 'only me' }, imported: (n) => `Imported ${n}`, noEntries: 'No memories yet.',
       question: 'My question: ',
-      candidateAsk: '(If anything in this chat is worth me keeping long-term, list it at the end like this and I will decide myself: [MEMORY CANDIDATE] type: …; content: … (in my own words) [/MEMORY CANDIDATE])',
+      candidateAsk: '(If anything in this chat is worth me keeping long-term, write it at the end, one per line, and I will decide myself: [NEW MEMORY] date | type | words (in my own words). Types: event, feeling, reflection, anchor, what helped, to future me, person, support plan.)',
+      fileTitle: '📄 Send the whole file (simplest)', fileHelp: 'Download "my-memory.txt" and send it to any AI (upload it or paste the text), then chat as usual. The AI reads everything in the file; notes marked "only for me" are never put in it.',
+      fileSens: 'Also include "sensitive" notes', fileDl: 'Download my-memory.txt', fileCopy: 'Copy all text', fileDone: (n, t) => `Ready: ${n} notes, ~${t} tokens.`,
       kinds: { event: 'event', state: 'feeling', reflection: 'reflection', anchor: 'anchor', coping: 'what helped', future_message: 'to future me', relationship: 'person', support_plan: 'support plan' },
       aiMade: 'AI-written',
     },
@@ -197,7 +211,7 @@
   }
   function download(name, text) {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([text], { type: name.endsWith('.json') ? 'application/json' : 'text/markdown' }));
+    a.href = URL.createObjectURL(new Blob([text], { type: name.endsWith('.json') ? 'application/json' : name.endsWith('.txt') ? 'text/plain;charset=utf-8' : 'text/markdown;charset=utf-8' }));
     a.download = name; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
@@ -284,7 +298,15 @@
   // ---------- Paste AI candidates ----------
   const KIND_WORDS = [[/事件|event/i, 'event'], [/感受|状态|心情|state|feeling|mood/i, 'state'], [/体会|反思|reflection/i, 'reflection'], [/锚点|anchor/i, 'anchor'],
     [/方法|有帮助|应对|coping|helped/i, 'coping'], [/未来|future/i, 'future_message'], [/关系|人|relationship|person/i, 'relationship'], [/支持计划|计划|support|plan/i, 'support_plan']];
+  function todayKey() {
+    const d = new Date(Date.now() - new Date().getTimezoneOffset() * 60000);
+    return d.toISOString().slice(0, 10);
+  }
   function parseCandidates(text) {
+    const lines = PM.parseMemoryFile(text, todayKey()).map((l) => ({ ...l, content: l.words }));
+    return [...lines, ...parseOldBlocks(text)].slice(0, 50);
+  }
+  function parseOldBlocks(text) {
     const re = /【\s*记忆候选\s*】([\s\S]*?)(?:【\s*\/\s*记忆候选\s*】|$)|\[\s*MEMORY CANDIDATE\s*\]([\s\S]*?)(?:\[\s*\/\s*MEMORY CANDIDATE\s*\]|$)/gi;
     const out = [];
     for (const m of text.matchAll(re)) {
@@ -294,9 +316,9 @@
       const contentM = body.match(/(?:内容|content)\s*[:：]\s*([\s\S]+)/i);
       const content = (contentM ? contentM[1] : body).trim().slice(0, 1000);
       const k = kindM ? (KIND_WORDS.find(([r]) => r.test(kindM[1])) || [])[1] : undefined;
-      if (content) out.push({ content, kind: k });
+      if (content) out.push({ content, words: content, kind: k, day: todayKey(), origin: 'ai_candidate', sensitivity: 'normal' });
     }
-    return out.slice(0, 20);
+    return out;
   }
   function showCandidates() {
     const box = $('cands'); box.hidden = false; box.textContent = '';
@@ -306,16 +328,14 @@
     const boxes = cands.map((c) => {
       const row = document.createElement('label'); row.className = 'check';
       const cb = document.createElement('input'); cb.type = 'checkbox';
-      const span = document.createElement('span'); span.textContent = `${c.kind ? `[${T[lang].kinds[c.kind]}] ` : ''}${c.content}`;
+      const span = document.createElement('span'); span.textContent = `${c.day} ${c.kind ? `[${T[lang].kinds[c.kind]}] ` : ''}${c.content}`;
       row.append(cb, span); box.appendChild(row); return { cb, c };
     });
     const b = document.createElement('button'); b.className = 'primary'; b.textContent = t('saveSel');
     b.onclick = async () => {
-      let n = 0;
-      for (const { cb, c } of boxes) if (cb.checked) {
-        try { await memory.remember({ words: c.content, consent: 'user_confirmed', kind: c.kind, origin: 'ai_candidate' }); n++; } catch (e) { toast(e.message); }
-      }
-      toast(`${t('saved').replace(/[:：]$/, '')} ${n}`); $('p').value = ''; box.hidden = true;
+      const chosen = boxes.filter(({ cb }) => cb.checked).map(({ c }) => c);
+      try { const r = await memory.importNotes(chosen); toast(`${t('saved').replace(/[:：]$/, '')} ${r.added}`); } catch (e) { toast(e.message); }
+      $('p').value = ''; box.hidden = true;
     };
     box.appendChild(b);
   }
@@ -373,13 +393,26 @@
     $('copy').onclick = () => copy(copyText(true));
     $('copyPlain').onclick = () => copy(copyText(false));
     $('saveBtn').onclick = save;
+    const makeFile = async () => {
+      const f = await memory.exportForAI({ lang, includeSensitive: $('fileSens').checked });
+      $('fileMsg').textContent = t('fileDone')(f.notes, f.tokens);
+      return f.text;
+    };
+    $('fileDl').onclick = async () => download(lang === 'zh' ? '我的记忆.txt' : 'my-memory.txt', await makeFile());
+    $('fileCopy').onclick = async () => copy(await makeFile());
     $('parseBtn').onclick = showCandidates;
     $('filter').oninput = renderList;
     $('expBtn').onclick = () => memory.exportAll();
     $('impBtn').onclick = () => $('impFile').click();
     $('impFile').onchange = async () => {
       const f = $('impFile').files[0]; if (!f) return;
-      try { const r = await memory.importDoc(JSON.parse(await f.text())); toast(t('imported')(r.added)); renderList(); } catch (e) { toast(e.message); }
+      try {
+        const text = await f.text();
+        let doc = null;
+        try { doc = JSON.parse(text); } catch {}
+        const r = doc ? await memory.importDoc(doc) : await memory.importMemoryFile(text);
+        toast(t('imported')(r.added)); renderList();
+      } catch (e) { toast(e.message); }
       $('impFile').value = '';
     };
     $('shareSens').onchange = () => { settings.shareSensitive = $('shareSens').checked; saveSettings(); makeMemory(); };
