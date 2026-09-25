@@ -34,7 +34,7 @@ export const SIGNALS = [
   [/没胃口|吃不下|不想吃(饭|东西)|食欲(差|不好|不振)|no appetite|can'?t eat/i, 'appetite', 'poor'],
   [/麻木|木木的|整个人木了|没(有)?感觉|感觉不到|空洞|空空的|行尸走肉|\bnumb(ness)?\b|empty inside|\bhollow\b|feel nothing|can'?t feel/i, 'numb', 'high'],
   [/解离|不真实|像在做梦|像做梦|灵魂出窍|抽离|隔着一层|不像我自己|dissociat|dereali[sz]ation|depersonali[sz]ation|\bunreal\b|\bdetached\b|out of (my )?body|not real/i, 'unreal', 'high'],
-  [/想不起(来)?|记不起(来)?|记不住|断片|失去(了)?时间|记忆(空白|断了|丢了)|丢了一段|lost time|can'?t remember|memory gaps?|blank(ed)? out/i, 'memgap', 'high'],
+  [/想不起(来)?|记不起(来)?|不记得|记不住|断片|失去(了)?时间|记忆(空白|断了|丢了)|丢了一段|lost time|can'?t remember|memory gaps?|blank(ed)? out/i, 'memgap', 'high'],
   [/焦虑|紧张|心慌|恐慌|害怕|担心|不安|\b(panic|anxious|anxiety|nervous|worried|scared|afraid)\b/i, 'anxiety', 'high'],
   [/压力(很|好|太|特别)?大|崩溃|撑不住|扛不住|overwhelm|\bstress(ed)?\b|burn(ed|t)? out/i, 'stress', 'high'],
   [/孤独|孤单|寂寞|没人(理|懂|说话)|\b(lonely|isolated)\b/i, 'lonely', 'high'],
@@ -52,7 +52,7 @@ export const EXPECT = /以为|本来想|原本想|希望|期待|可能会|应该
 // Things the user did that may help. `re` finds a mention; whether it helped
 // comes from EFFECTS. meds is always sensitive.
 export const STRATEGIES = {
-  walk: { zh: '散步', en: 'walking', re: /散步|走路|走走|走了走|出去走|溜达|遛弯|\bwalk(ed|ing|s)?\b/i },
+  walk: { zh: '散步', en: 'walking', re: /散步|走路|走走|走了走|走一走|出去走|出门走|下楼走|去走|走了(一|两|几|十|半|个)|溜达|遛弯|\bwalk(ed|ing|s)?\b/i },
   exercise: { zh: '运动', en: 'exercise', re: /运动|跑步|健身|瑜伽|游泳|骑车|爬山|拉伸|exercis|workout|\bran\b|\bruns?\b|\brunning\b|\bjog|\byoga\b|\bswim|stretch/i },
   sunlight: { zh: '晒太阳/去户外', en: 'sunlight/outdoors', re: /晒(了)?.{0,4}太阳|阳光|户外|公园|大自然|sunlight|sunshine|outdoors|\bpark\b|nature/i },
   music: { zh: '听音乐', en: 'music', re: /听歌|听音乐|音乐|唱歌|\bmusic\b|\bsongs?\b|\bsing(ing)?\b/i },

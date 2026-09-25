@@ -136,7 +136,7 @@
       shareSens: '允许把标为「敏感」的记录带给 AI（「只给我自己看」的永远不会）', budgetLabel: '每次最多带多少记忆（token）：',
       storage: '你的记忆只保存在这台设备的这个浏览器里，不会上传到任何地方。清除浏览器数据会删掉它们，请定期「导出备份」。',
       storageMem: '⚠️ 这个浏览器不允许本地存储：关闭页面后记忆会丢失。请用 Chrome/Edge/Firefox 打开，或随时导出备份。',
-      showLog: '查看访问记录', del: '删除', confirmDel: '确定删除这条记忆吗？删除后无法恢复。',
+      showLog: '查看访问记录', del: '删除', undo: '撤销删除', hiddenUntil: (d) => `已隐藏，${d} 删除`, confirmDel: '隐藏这条记忆？7 天后会永久删除，在那之前可以撤销。',
       sens: { normal: '普通', sensitive: '敏感', restricted: '仅自己' }, imported: (n) => `导入了 ${n} 条`, noEntries: '还没有记忆。',
       question: '我的问题：',
       candidateAsk: '（如果这次对话里有值得我长期记住的内容，请在回答最后一行一条地写出，我会自己决定要不要保存：【新记忆】日期｜类型｜内容（尽量用我的原话）。类型只用：事件、感受、体会、锚点、方法、给未来的我、重要的人、支持计划。）',
@@ -162,7 +162,7 @@
       shareSens: 'Allow notes marked "sensitive" to be shared with AI ("only for me" notes never are)', budgetLabel: 'Max memory per question (tokens):',
       storage: 'Your memory is stored only in this browser on this device and is never uploaded. Clearing browser data deletes it, so export a backup now and then.',
       storageMem: '⚠️ This browser blocks local storage: memories will be lost when you close the page. Use Chrome/Edge/Firefox or export often.',
-      showLog: 'Show access log', del: 'Delete', confirmDel: 'Delete this memory? This cannot be undone.',
+      showLog: 'Show access log', del: 'Delete', undo: 'Undo delete', hiddenUntil: (d) => `hidden, deleted on ${d}`, confirmDel: 'Hide this memory? It will be permanently deleted after 7 days; you can undo until then.',
       sens: { normal: 'normal', sensitive: 'sensitive', restricted: 'only me' }, imported: (n) => `Imported ${n}`, noEntries: 'No memories yet.',
       question: 'My question: ',
       candidateAsk: '(If anything in this chat is worth me keeping long-term, write it at the end, one per line, and I will decide myself: [NEW MEMORY] date | type | words (in my own words). Types: event, feeling, reflection, anchor, what helped, to future me, person, support plan.)',
@@ -344,7 +344,7 @@
   async function renderList() {
     const list = $('list'); list.textContent = '';
     const f = $('filter').value.trim().toLowerCase();
-    const entries = (await memory.listForOwner()).slice().reverse().filter((e) => !f || e.words.toLowerCase().includes(f)).slice(0, 200);
+    const entries = (await memory.listForOwner()).filter((e) => !e.tombstone && !e.annotates).slice().reverse().filter((e) => !f || e.words.toLowerCase().includes(f)).slice(0, 200);
     if (!entries.length) { list.textContent = t('noEntries'); return; }
     for (const e of entries) {
       const div = document.createElement('div'); div.className = 'entry';
@@ -352,13 +352,14 @@
       meta.append(`${e.day}  `);
       for (const k of [...new Set(e.items.map((i) => i.kind))]) { const b = document.createElement('span'); b.className = 'badge'; b.textContent = T[lang].kinds[k]; meta.append(b); }
       if (e.origin === 'ai_candidate') { const b = document.createElement('span'); b.className = 'badge'; b.textContent = t('aiMade'); meta.append(b); }
+      if (e.hidden) { const b = document.createElement('span'); b.className = 'badge private'; b.textContent = t('hiddenUntil')(e.deleteAfter.slice(0, 10)); meta.append(b); }
       const words = document.createElement('div'); words.textContent = e.words;
       const row = document.createElement('div'); row.className = 'row';
       const sel = document.createElement('select'); sel.style.width = 'auto';
       for (const s of ['normal', 'sensitive', 'restricted']) { const o = document.createElement('option'); o.value = s; o.textContent = T[lang].sens[s]; o.selected = e.sensitivity === s; sel.appendChild(o); }
       sel.onchange = async () => { await memory.setSensitivity(e.id, sel.value); renderList(); };
-      const del = document.createElement('button'); del.textContent = t('del');
-      del.onclick = async () => { if (confirm(t('confirmDel'))) { await memory.forget({ id: e.id }); renderList(); } };
+      const del = document.createElement('button'); del.textContent = e.hidden ? t('undo') : t('del');
+      del.onclick = async () => { if (e.hidden) { await memory.forget({ id: e.id, undo: true }); renderList(); } else if (confirm(t('confirmDel'))) { await memory.forget({ id: e.id }); renderList(); } };
       row.append(sel, del);
       div.append(meta, words, row); list.appendChild(div);
     }

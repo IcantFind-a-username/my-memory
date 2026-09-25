@@ -106,6 +106,11 @@ export function safeQuote(text, max) {
   return t;
 }
 
+/** "2026-09-05 21:14" in the user's local time. */
+export function localStamp(iso, tzOffsetMin) {
+  return new Date(Date.parse(iso) + tzOffsetMin * 60000).toISOString().slice(0, 16).replace('T', ' ');
+}
+
 export function clamp(n, lo, hi) {
   return Math.min(hi, Math.max(lo, n));
 }

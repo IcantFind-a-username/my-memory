@@ -13,7 +13,8 @@ const EPISODE_GAP_DAYS = 3;
 export function buildView(entries, allow) {
   const items = [];
   for (const e of entries) {
-    if (!allow(e.sensitivity)) continue;
+    // Deleted, hidden (cooling-off) and annotation records never enter retrieval.
+    if (e.tombstone || e.hidden || e.annotates || !allow(e.sensitivity)) continue;
     const base = keyToDay(e.day);
     e.items.forEach((it, i) => {
       items.push({

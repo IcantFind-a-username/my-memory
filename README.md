@@ -2,11 +2,11 @@
 
 # 🌱 我的记忆 · My Memory
 
-**一张关于你的锚点卡，放进每一个 AI。从此每次聊天，它都记得你。**<br>
-**One anchor card about you, placed in every AI. From then on, every chat remembers you.**
+**你的话，原样留下，永不改动。AI 回答你之前，先查确切的记录，不去猜。**<br>
+**Your words, kept exactly as you said them, never changed. Before answering, the AI looks up the exact record instead of guessing.**
 
-免费 · 开源 · 无广告 · 不用注册 · 不用安装<br>
-Free · Open source · No ads · No account · Nothing to install
+免费 · 开源 · 无广告 · 不用注册<br>
+Free · Open source · No ads · No account
 
 [中文](#中文) · [English](#english)
 
@@ -22,93 +22,106 @@ Free · Open source · No ads · No account · Nothing to install
 
 也许你常常觉得，和昨天的自己断了线。
 也许有些日子会突然"丢失"，想不起发生过什么。
-也许情绪来的时候很猛，事后又说不清它从哪里来。
+也许回头看某一天的自己，会觉得很陌生，不确定那时到底发生了什么。
 
-每次打开一个新的 AI 对话，都要从头解释一遍"我是谁、我怎么了、什么对我有用"，太累了。
+**我的记忆**替你把说过的话原样留下来，带着日期和时间，而且**谁都不能改动，包括以后的你自己**。
+你和 AI 聊天时，它会先去查确切的记录，告诉你"9 月 5 日 21:14 你写道：……"，而不是凭印象猜。
 
-**锚点卡**是一段只有几百字的"关于我"：
-你的现实锚点、你的规律、真正帮到过你的事、会让你更难受的话、你希望被怎样陪伴、撑不住时的计划，还有过去的你想对现在的你说的一句话。
+### 两种用法
 
-把它放进 AI 的个性化设置里，**每一个新对话都会自动带上它**。你难受的时候，AI 不用再问一遍，就知道怎么接住你。
-
-### 三步完成
-
-**① 做一张卡（一次对话）**
-
-打开 👉 [**锚点卡生成器.txt**](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%94%9F%E6%88%90%E5%99%A8.txt)，复制全文（或者下载后上传），发给任意一个 AI。
-它会温柔地问你几个问题，每一题都可以跳过；你也可以直接把日记、笔记、以前的聊天记录贴给它，让它来提炼。
-最后你会得到两段文字，就是你的锚点卡。想先看看长什么样：[示例卡](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%A4%BA%E4%BE%8B.txt)。
-
-**② 放进你用的 AI（每个平台只需要一次）**
-
-| 平台 | 放在哪里 | 之后 |
+| | 🗂️ 记忆库 | 🪪 锚点卡 |
 |---|---|---|
-| ChatGPT | 设置 → 个性化 → 自定义指令：第一段放"关于你"，第二段放"希望如何回复" | 每个新对话自动带上 |
-| Claude | 设置 → 个人资料 → 个人偏好（Instructions for Claude）：两段一起放 | 每个新对话自动带上 |
-| Gemini | 设置 → 已保存的信息：两段一起添加 | 之后的对话都会参考 |
-| 豆包 / 元宝 | 创建一个"仅自己可见"的智能体，两段一起放进设定 | 和这个智能体聊时一直带着 |
-| DeepSeek 等没有设置的 | 每次新对话开头粘贴一次（存进输入法"常用语"，一点就贴） | 这次对话一直带着 |
+| 适合 | Claude、ChatGPT | 任何 AI（豆包、DeepSeek、Kimi……） |
+| 记录 | 聊天时自动记录你的原话 | 不记录日常，只放一张"关于我"的卡 |
+| 查找 | AI 能查到确切的哪一天、哪句话 | AI 每次对话都读得到这张卡 |
+| 现在能用吗 | Claude 电脑版：可以自己构建安装；在线版（Claude 网页 / 手机、ChatGPT）：代码已完成，**还没有公开上线的地址** | ✅ 今天就能用 |
 
-> 菜单名称以各 App 实际为准。ChatGPT 免费版每栏最多 1500 字，锚点卡每段控制在 1400 字以内，放得下。
+---
 
-**③ 像平常一样聊天**
+### 🗂️ 记忆库
 
-> 你："我现在又有点麻木了。"
->
-> AI："我在。我们先慢一点。你现在在客厅吗？能看到豆豆吗？"
-> （等你稳一点）"要不要试试你卡里写的，出门走十分钟，哪怕只到楼下？"
+**它会做什么**
 
-状态有变化时，在对话里说一句 **"更新锚点卡"**，AI 会给你一张新卡，替换掉旧的就好。
+- **不用刻意记录**：开启"自动记录"后，你聊到自己时，AI 会把你的原话连同时间存下来。不想记的时候，说一句"暂停记录"。
+- **原文永远不被改动**：每一条记录都和上一条用密码学的方式串在一起，改一个字、或悄悄删掉一条，都会被发现。你的私人页面随时显示"全部记录校验通过"。
+- **后来的理解放在旁边**：如果后来的你对某一天有了不同的理解，可以补充一句，原话不动，两者并排。这样能看到不同状态下的自己怎么描述同一件事。
+- **精确查档，不猜**：AI 回答前先查记录，引用原话和时间；查不到就直接说"没有记录"。
+- **删除是慎重的**：说"删掉这条"，它会先隐藏，7 天后才真正删除，期间可以撤销。遇到紧急情况，可以在私人页面立即销毁整个记忆库。
 
-### 锚点卡里有什么
+**怎么用**
 
-| 部分 | 写什么 | 为什么重要 |
-|---|---|---|
-| 现实锚点 | 能提醒你"我在这里、我是安全的"的事实 | 解离、麻木时，AI 可以先陪你着陆 |
-| 我的规律 · 早期信号 | 状态变差之前通常会先出现什么 | AI 能更早注意到，而不是等你崩溃 |
-| 对我有用的 | 具体的方法，按有用程度排好 | AI 给的是**你**用过有效的办法，不是通用鸡汤 |
-| 会让我更难受的 | 比如被追问"为什么"、"想开点" | AI 会避开 |
-| 怎么陪我 | 语气、长短、先安慰还是先给办法 | 每次都是你需要的陪伴方式 |
-| 撑不住的时候 | 你自己的安全计划 | 危险时 AI 会先提醒你的计划和急救电话 |
-| 过去的我想说 | 一句写给低谷时自己的话 | 让过去的你陪着现在的你 |
+- **Claude 电脑版**：安装 `personal-memory.mcpb` 扩展（双击，点"安装"）。记忆只存在你自己的电脑上。
+- **Claude 网页 / 手机、ChatGPT**：打开在线版网址，点"创建我的记忆库"，你会得到一个私人链接，把它添加到 Claude 的"连接器"或 ChatGPT 的"开发者模式 → 连接器"里，只需要添加一次。
 
-卡片同时规定了 AI 的边界：**感受不等于事实、先后不等于因果、不诊断、没写的事不编造、不让你只依赖 AI。**
+> 💡 扩展会在 [Releases](https://github.com/IcantFind-a-username/my-memory/releases) 发布；在线版需要一个部署好的地址，目前还没有公开上线。想自己先试或自己部署，见 [在线连接器说明](docs/CONNECTOR.md)。
 
-### 一点小提醒 💛
+**你的记忆在哪里**
 
-- 锚点卡会保存在各个 AI 平台的设置里，也就是它们的服务器上。所以卡里只写称呼和城市，**不写全名、电话、详细地址**；太私密的事也不需要写进去，卡里放的是"怎么陪你"，而不是你的全部故事。
-- 锚点卡是你自己的：可以随时修改、删除，或者换一个 AI 继续用。
+- 电脑版：`~/PersonalMemory/memory.json`，只在你的电脑上。
+- 在线版：服务器上只保存**加密后的数据**，解密的钥匙从你的私人链接算出来，服务器不保存链接。所以私人链接就是唯一的钥匙：不要分享，也请存好，弄丢了无法找回。
+- 两种方式都一样：当次回答需要的几条记录，会随对话发给你正在用的 AI 公司（Anthropic 或 OpenAI）。
+
+---
+
+### 🪪 锚点卡（任何 AI，今天就能用）
+
+一段只有几百字的"关于我"：你的现实锚点、你的规律、真正帮到过你的事、会让你更难受的话、你希望被怎样陪伴、撑不住时的计划。放进 AI 的个性化设置后，每个新对话都会自动带上。
+
+1. 把 👉 [**锚点卡生成器.txt**](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%94%9F%E6%88%90%E5%99%A8.txt) 发给任意一个 AI，回答几个问题（每题都能跳过），或者直接贴上你的日记和笔记。先看看样子：[示例卡](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%A4%BA%E4%BE%8B.txt)。
+2. 把得到的两段文字放进你用的 AI，每个平台只需要一次：
+
+| 平台 | 放在哪里 |
+|---|---|
+| ChatGPT | 设置 → 个性化 → 自定义指令：第一段放"关于你"，第二段放"希望如何回复" |
+| Claude | 设置 → 个人资料 → 个人偏好：两段一起放 |
+| Gemini | 设置 → 已保存的信息 |
+| 豆包 / 元宝 | 创建一个"仅自己可见"的智能体，两段放进设定 |
+| DeepSeek 等 | 每次新对话开头粘贴一次（存进输入法"常用语"，一点就贴） |
+
+3. 状态有变化时，在对话里说"更新锚点卡"。
+
+> 锚点卡保存在各平台的设置里，所以只写称呼和城市，不写全名、电话、地址。
+
+---
+
+### 我们对你的承诺
+
+- 🪞 **原话就是原话。** 不润色、不改写。你的感受不会被当成事实，"先后"不会被说成"因果"，AI 也不会给你下诊断。
+- 🔒 **不被改动。** 包括以后的你自己。能做的只有补充、隐藏和慎重的删除。
+- 👀 **你看得见。** 私人页面列出所有记录、完整性校验结果，以及 AI 什么时候读过哪几条。
+- 🙋 **你说了算。** 自动记录随时可以暂停或关闭；标为"仅自己可见"的记录，任何 AI 都读不到。
+- 🌍 **没有广告，不做数据生意，不锁定平台。**
 
 ### 常见问题
 
 <details>
+<summary><b>为什么连我自己都不能改原文？</b></summary>
+
+因为在不同的状态下，你可能会看不懂、甚至不认同以前的某条记录。如果能随手改掉，这段记忆就不再可靠，也没办法帮你看清自己是怎么变化的。你可以随时**补充**后来的理解，它会和原话并排放着。真的需要删除时，隐藏后 7 天才会删掉，给你留出反悔的时间。
+</details>
+
+<details>
+<summary><b>自动记录会把什么都记下来吗？</b></summary>
+
+不会。按设计，AI 只在你聊到自己的时候记录：感受、发生的事、有用的方法、在意的人、计划。帮你写邮件、写代码这类对话不记录，"嗯""谢谢"这种也不会存。要不要记由 AI 来判断，所以偶尔会多记或漏记；多记的可以删掉。随时说"暂停记录"就会停。
+</details>
+
+<details>
 <summary><b>这和 AI 自带的记忆有什么不同？</b></summary>
 
-AI 自带的记忆是它自己决定记什么、怎么写，而且只在那一个平台里有效。锚点卡是**你自己写的、你看得见的**，同一张卡可以放进所有 AI，内容不会被改写成 AI 的推断或标签。两者也可以同时用。
+AI 自带的记忆由 AI 自己决定记什么、怎么改写，也可能把推断当成关于你的结论。这里保存的是**你的原话**，带时间、不可改动，AI 引用时必须给出处；而且同一个记忆库，Claude 和 ChatGPT 都能用。
 </details>
 
 <details>
-<summary><b>要花钱吗？需要注册吗？</b></summary>
+<summary><b>要花钱吗？</b></summary>
 
-不要钱，也不用注册任何新东西。你只需要平时在用的 AI。这是一个公益开源项目，没有广告，不收集任何数据。
-</details>
-
-<details>
-<summary><b>我不想回答很多问题，可以吗？</b></summary>
-
-可以。每一题都能跳过；你也可以直接把已有的日记或笔记贴给生成器，让它提炼。说一句"我累了"，它就会先用已有的内容把卡做出来，剩下的以后再补。
-</details>
-
-<details>
-<summary><b>多久更新一次？</b></summary>
-
-不需要每天记。等你发现了新的有用的方法，或者状态、生活有了变化，在对话里说"更新锚点卡"就行。几周一次也完全可以。
+不要。你继续用自己的 Claude 或 ChatGPT 就行。项目本身免费、开源，没有广告。
 </details>
 
 <details>
 <summary><b>它能代替心理咨询或治疗吗？</b></summary>
 
-不能。它只是让 AI 更懂得怎么陪你，并在危险时提醒你身边的人和急救电话。它不是医生，也不是治疗。如果你正在接受专业帮助，它可以作为一个小小的补充。
+不能。它帮你留住并找回自己的记忆，让 AI 的陪伴更有根据。它不是医生，也不是治疗。如果你正在接受专业帮助，它可以作为一个小小的补充；你也可以把导出的记录带给你信任的专业人员一起看。
 </details>
 
 ### 如果你现在很难受
@@ -126,94 +139,44 @@ AI 自带的记忆是它自己决定记什么、怎么写，而且只在那一�
 ### For you
 
 Maybe you often feel cut off from who you were yesterday.
-Maybe some days just go missing, and you can't recall what happened.
-Maybe a feeling hits hard, and afterwards you can't tell where it came from.
+Maybe some days just go missing.
+Maybe, looking back at yourself on a certain day, you feel like a stranger and can't be sure what really happened.
 
-Explaining yourself from scratch in every new AI chat (who you are, what's going on, what helps) is exhausting.
+**My Memory** keeps what you say, word for word, with date and time, and **nobody can change it, not even a later you**.
+When you talk to an AI, it looks up the exact record first ("On Sep 5 at 21:14 you wrote: …") instead of guessing.
 
-An **Anchor Card** is a few hundred words "about me":
-your reality anchors, your patterns, what has actually helped, what makes things worse, how you'd like to be supported, your plan for when you can't cope, and one sentence from your past self to your present self.
+### Two ways to use it
 
-Put it in an AI's personalisation settings and **every new chat carries it automatically**. When you're struggling, the AI already knows how to be with you.
-
-### Three steps
-
-**① Make your card (one conversation)**
-
-Open 👉 [**anchor-card-builder.txt**](start/anchor-card-builder.txt), copy it all (or download and upload it), and send it to any AI.
-It will gently ask you a few questions, and any of them can be skipped. You can also paste your journal, notes or old chats and let it distil them.
-You'll end up with two short blocks of text: your anchor card. Curious what one looks like? See the [example card](start/anchor-card-example.txt).
-
-**② Put it in the AIs you use (once per app)**
-
-| App | Where | After that |
+| | 🗂️ Memory archive | 🪪 Anchor card |
 |---|---|---|
-| ChatGPT | Settings → Personalization → Custom instructions: part one in "about you", part two in "how to respond" | Every new chat carries it |
-| Claude | Settings → Profile → personal preferences (Instructions for Claude): both parts together | Every new chat carries it |
-| Gemini | Settings → Saved info: add both parts | Later chats take it into account |
-| Apps without such a setting (e.g. DeepSeek) | Paste it at the start of each new chat (save it as a keyboard text shortcut for one tap) | It stays for that chat |
+| For | Claude, ChatGPT | Any AI |
+| Recording | Your words are kept automatically as you chat | No daily log, just one "about me" card |
+| Finding | The AI can find the exact day and sentence | Every chat can read the card |
+| Available now? | Claude desktop: build and install it yourself; online (Claude web/mobile, ChatGPT): code is ready, **no public address yet** | ✅ Today |
 
-> Menu names may differ slightly. ChatGPT's free plan allows 1,500 characters per box; each part of the card is kept under 1,400.
+### 🗂️ Memory archive
 
-**③ Chat as you normally do**
+- **No effort to record**: with automatic recording on, what you share about yourself is kept with its time. Say "pause recording" whenever you like.
+- **Never changed**: each record is cryptographically chained to the one before, so a changed word or a quietly removed record shows up. Your private page always shows the integrity check.
+- **Later understanding sits beside it**: add what you understand later; the original stays, side by side, so you can see how different states of you describe the same thing.
+- **Exact, not guessed**: the AI quotes your words with date and time, or says "no record".
+- **Deleting is deliberate**: a deleted record is hidden now and removed after 7 days (undo until then). In an emergency, destroy the whole archive from your private page.
 
-> You: "I'm feeling a bit numb again."
->
-> AI: "I'm here. Let's slow down. Are you in the living room? Can you see Bean?"
-> (once you're steadier) "Would you like to try the thing on your card, a 10-minute walk, even just to the corner?"
+**How**: install `personal-memory.mcpb` in Claude desktop (your memory stays on your computer), or create an online archive and add its private link once as a connector in Claude or in ChatGPT's developer mode. The extension will appear under [Releases](https://github.com/IcantFind-a-username/my-memory/releases); the online version still needs a hosted address. See the [online connector guide](docs/CONNECTOR.md) to try or self-host it.
 
-When things change, just say **"update my anchor card"** in a chat. The AI gives you a fresh card to replace the old one.
+**Where it lives**: on your computer (desktop), or as encrypted data on the server (online), where the key comes from your private link and the server never stores it. The link is the only key: don't share it, and keep it safe; a lost link can't be recovered. In both cases, the few records needed for an answer go to the AI company you're using (Anthropic or OpenAI).
 
-### What's on the card
+### 🪪 Anchor card (any AI, today)
 
-| Part | What goes in | Why it matters |
-|---|---|---|
-| Reality anchors | Facts that remind you "I'm here, I'm safe" | When you feel unreal or numb, the AI can help you ground first |
-| Patterns · early signs | What usually shows up before things get worse | The AI can notice earlier, not only when you're in crisis |
-| What helps me | Specific things, most helpful first | The AI suggests what worked for **you**, not generic advice |
-| What makes it worse | e.g. being asked "why", "just think positive" | The AI avoids them |
-| How to be with me | Tone, length, comfort first or ideas first | The support you need, every time |
-| When I can't cope | Your own safety plan | In danger, the AI reminds you of your plan and emergency numbers |
-| My past self says | One sentence for your future self on a bad day | Your past self keeps you company |
+A few hundred words "about me" (reality anchors, patterns, what helps, what makes it worse, how to be with me, what to do when I can't cope) placed once in each AI's personalisation settings. Send 👉 [**anchor-card-builder.txt**](start/anchor-card-builder.txt) to any AI to make yours; see the [example card](start/anchor-card-example.txt). Put part one in ChatGPT's "about you" and part two in "how to respond"; in Claude, both parts go into personal preferences; in Gemini, Saved info; elsewhere, paste it at the start of a chat. Say "update my anchor card" when things change.
 
-The card also sets the AI's boundaries: **feelings aren't facts, "before" isn't "because", no diagnosis, nothing invented, and no making you depend on the AI alone.**
+### Our promises to you
 
-### A gentle reminder 💛
-
-- The card is stored in each app's settings, which means on their servers. So use a first name and a city: **no full name, phone number or address**. It doesn't need your most private story either; it's about how to be with you, not everything that happened to you.
-- The card is yours: change it, delete it, or take it to another AI whenever you like.
-
-### Questions
-
-<details>
-<summary><b>How is this different from the AI's own memory?</b></summary>
-
-An AI's built-in memory decides for itself what to remember and how to phrase it, and it only works inside that one app. Your anchor card is **written by you and visible to you**, the same card works in every AI, and it never gets rewritten into the AI's guesses or labels. You can use both.
-</details>
-
-<details>
-<summary><b>Does it cost anything? Do I need an account?</b></summary>
-
-No. You only need the AI apps you already use. It's a free, open-source, non-profit project with no ads and no data collection.
-</details>
-
-<details>
-<summary><b>I don't want to answer lots of questions. Is that OK?</b></summary>
-
-Yes. Every question can be skipped, or you can paste notes you already have. Say "I'm tired" and it will make the card from what it has; the rest can come later.
-</details>
-
-<details>
-<summary><b>How often should I update it?</b></summary>
-
-No daily logging needed. When you find something new that helps, or life changes, say "update my anchor card". Every few weeks is perfectly fine.
-</details>
-
-<details>
-<summary><b>Can it replace therapy?</b></summary>
-
-No. It helps an AI know how to be with you, and reminds you of your people and emergency numbers when you're in danger. It isn't a doctor or a treatment. If you're already getting professional support, it can be a small companion to that.
-</details>
+- 🪞 **Your words stay your words.** Never polished or rewritten; feelings aren't treated as facts, "before" isn't turned into "because", and there's no diagnosis.
+- 🔒 **Never changed**, not even by a later you. You can add, hide, and deliberately delete.
+- 👀 **You can see everything**: all records, the integrity check, and when an AI read which ones.
+- 🙋 **You decide.** Pause or turn off automatic recording any time; records marked "only for me" are never shown to any AI.
+- 🌍 **No ads, no data business, no lock-in.**
 
 ### If things feel hard right now
 
@@ -228,14 +191,8 @@ You don't have to carry this alone.
 
 <br>
 
-For people who also want to keep a day-to-day record. None of these are needed for the anchor card.
-如果你也想记录日常，可以用下面这些。锚点卡本身不需要它们。
-
-- **Memory Capsule 记忆胶囊**: an offline page that keeps notes in your browser and, before each question, lends an AI only the few notes that matter. 离线网页，只借出和当前问题有关的几条。
-- **Claude desktop extension**: saves and recalls automatically, data stays on your computer. Claude 电脑版扩展，自动存取，数据留在本机。
-- **Memory file 记忆文件** ([我的记忆.txt](start/%E6%88%91%E7%9A%84%E8%AE%B0%E5%BF%86.txt) · [my-memory.txt](start/my-memory.txt)): a plain-text log you can send to any AI. 纯文本日志，可以发给任何 AI。
-
-The capsule and the extension will be published under [Releases](https://github.com/IcantFind-a-username/my-memory/releases). 胶囊和扩展发布后会放在 Releases。
+- **Memory Capsule 记忆胶囊**: an offline page that keeps notes in your browser and lends an AI only the few that matter. 离线网页，只借出相关的几条。
+- **Memory file 记忆文件** ([我的记忆.txt](start/%E6%88%91%E7%9A%84%E8%AE%B0%E5%BF%86.txt) · [my-memory.txt](start/my-memory.txt)): a plain-text log you can send to any AI. 纯文本日志。
 
 </details>
 
@@ -251,18 +208,18 @@ npm test
 ```
 
 ```bash
-npm run demo
-```
-
-```bash
 npm run build
 ```
 
-- `npm test`: 40 tests, including the real MCP server process, the bundled capsule, the memory-file round trip and the anchor card templates
-- `npm run demo`: the Day 1 → Day 20 recall chain in a throwaway folder
-- `npm run build`: writes the Claude Desktop extension, the Skill and the Memory Capsule to `dist/`, and regenerates the blank files in `start/`
+```bash
+npm run serve
+```
 
-Docs 文档: [DESIGN.md](docs/DESIGN.md) · [THREAT_MODEL.md](docs/THREAT_MODEL.md) · [SELF_REVIEW.md](docs/SELF_REVIEW.md) · [Agent Skill](skill/personal-memory/SKILL.md)
+- `npm test`: 49 tests, including the real MCP server process, the online connector over HTTP (encryption at rest, isolation), the record chain, and the capsule bundle
+- `npm run build`: the Claude Desktop extension, the Skill and the Memory Capsule into `dist/`
+- `npm run serve`: the online connector on port 8787 (see [CONNECTOR.md](docs/CONNECTOR.md) for HTTPS and deployment; a `Dockerfile` is included)
+
+Docs 文档: [DESIGN.md](docs/DESIGN.md) · [CONNECTOR.md](docs/CONNECTOR.md) · [THREAT_MODEL.md](docs/THREAT_MODEL.md) · [SELF_REVIEW.md](docs/SELF_REVIEW.md) · [Agent Skill](skill/personal-memory/SKILL.md)
 
 Contributions are very welcome, especially from people with lived experience, clinicians, and translators. 欢迎贡献，特别欢迎有亲身经历的朋友、专业人员和译者。
 

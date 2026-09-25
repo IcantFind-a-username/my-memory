@@ -3,8 +3,8 @@
   "name": "personal-memory",
   "display_name": "Personal Memory · 我的记忆",
   "version": "0.0.0",
-  "description": "Your own long-term memory, kept on your device. Each chat borrows only a few relevant lines, with your consent.",
-  "long_description": "Personal Memory keeps notes you ask it to keep (how you felt, what happened, what helped, reality anchors, messages to your future self) in one file on your computer. When you talk about yourself, Claude can borrow a tiny, relevant slice (usually under 300 tokens) instead of your whole history. Nothing is saved unless you ask or agree. Notes marked private are never shown to any AI. No account, no cloud, no tracking. Free and open source. Not a medical or therapy product.",
+  "description": "Your own verbatim, tamper-evident memory on your device. Claude recalls exact records instead of guessing.",
+  "long_description": "Personal Memory keeps what you share about yourself with Claude, word for word, with date and time, in one file on your computer. Records are never edited: they are sealed in a tamper-evident chain, and later understanding is added next to the original. When you talk about yourself, Claude borrows a small relevant slice and can look up exact records instead of guessing. Automatic recording can be turned off; notes marked private are never shown to any AI; deleting a note has a 7-day cooling-off. No account, no cloud, no tracking. Free and open source. Not a medical or therapy product.",
   "author": {
     "name": "Personal Memory contributors"
   },
@@ -34,6 +34,7 @@
       ],
       "env": {
         "PERSONAL_MEMORY_DIR": "${user_config.data_dir}",
+        "PERSONAL_MEMORY_AUTO_RECORD": "${user_config.auto_record}",
         "PERSONAL_MEMORY_SHARE_SENSITIVE": "${user_config.share_sensitive}",
         "PERSONAL_MEMORY_BUDGET": "${user_config.budget}"
       }
@@ -42,22 +43,33 @@
   "tools": [
     {
       "name": "remember",
-      "description": "Save something to your memory, only when you ask or agree."
+      "description": "Save what you share about yourself, word for word (automatically if you turned that on)."
     },
     {
       "name": "recall",
-      "description": "Borrow a tiny, privacy-filtered slice of your memory relevant to this message."
+      "description": "Borrow a small, privacy-filtered overview of your memory relevant to this message."
+    },
+    {
+      "name": "lookup",
+      "description": "Find exact original records with date, time and an integrity check."
     },
     {
       "name": "forget",
-      "description": "Delete a saved note."
+      "description": "Hide a record now and delete it after a 7-day cooling-off (undo possible)."
     },
     {
       "name": "memory_info",
-      "description": "Status, access log, or export of your memory."
+      "description": "Status and integrity, access log, export, pause or resume recording."
     }
   ],
   "user_config": {
+    "auto_record": {
+      "type": "boolean",
+      "title": "Record automatically",
+      "description": "When you tell Claude about yourself, your words are kept automatically (you can say 'pause recording' any time). Off: only when you ask.",
+      "default": true,
+      "required": false
+    },
     "data_dir": {
       "type": "directory",
       "title": "Memory folder",

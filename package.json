@@ -1,6 +1,6 @@
 {
   "name": "personal-memory",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Privacy-first personal memory for any AI: your notes stay on your device; each chat borrows only a few relevant lines.",
   "type": "module",
   "license": "MIT",
@@ -25,7 +25,8 @@
   "scripts": {
     "test": "node --test",
     "demo": "node scripts/demo.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "serve": "node src/http/server.js"
   },
   "keywords": [
     "memory",

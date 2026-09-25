@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-// Zero-dependency MCP server over stdio (newline-delimited JSON-RPC 2.0).
-// Small enough to audit in one sitting; no network access, no telemetry.
+// Zero-dependency MCP server. The protocol handler is transport-free and is
+// shared by the local stdio server below (Claude Desktop extension) and the
+// online connector (src/http/server.js). No network access, no telemetry.
 //
-// Configuration (set by the user in their AI app's extension settings):
+// Configuration for the local server (set in the AI app's extension settings):
 //   PERSONAL_MEMORY_DIR              folder holding memory.json (default ~/PersonalMemory)
+//   PERSONAL_MEMORY_AUTO_RECORD      "true": save what the user shares about themselves without being asked each time
 //   PERSONAL_MEMORY_SHARE_SENSITIVE  "true" to let AI see notes marked sensitive (default false)
 //   PERSONAL_MEMORY_BUDGET           max memory tokens lent per reply (default 300, 60..800)
 
@@ -12,19 +14,23 @@ import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { createMemory, CORE_VERSION } from '../core/memory.js';
 import { fileStorage, defaultDir } from '../node/file-store.js';
-import { TOOLS, INSTRUCTIONS, callTool } from './tools.js';
+import { toolsFor, instructionsFor, callTool } from './tools.js';
 
-const SUPPORTED_VERSIONS = ['2025-11-25', '2025-06-18', '2025-03-26', '2024-11-05'];
+export const SUPPORTED_VERSIONS = ['2025-11-25', '2025-06-18', '2025-03-26', '2024-11-05'];
 
-export function createServer(memory, write) {
-  const send = (msg) => write(`${JSON.stringify(msg)}\n`);
-  const reply = (id, result) => send({ jsonrpc: '2.0', id, result });
-  const fail = (id, code, message) => send({ jsonrpc: '2.0', id, error: { code, message } });
+const reply = (id, result) => ({ jsonrpc: '2.0', id, result });
+const fail = (id, code, message) => ({ jsonrpc: '2.0', id, error: { code, message } });
 
-  async function handle(msg) {
-    if (!msg || msg.jsonrpc !== '2.0' || typeof msg.method !== 'string') {
-      if (msg && msg.id !== undefined && msg.method === undefined) return; // a response to us; we send no requests
-      return fail(msg?.id ?? null, -32600, 'Invalid Request');
+/**
+ * Handle one JSON-RPC message; resolves to a response, or undefined for
+ * notifications. `memory` may be a function returning the memory to use.
+ */
+export function createHandler(memory, { exportNote } = {}) {
+  const get = typeof memory === 'function' ? memory : async () => memory;
+  return async function handle(msg) {
+    if (!msg || typeof msg !== 'object' || msg.jsonrpc !== '2.0' || typeof msg.method !== 'string') {
+      if (msg && typeof msg === 'object' && msg.id !== undefined && msg.method === undefined) return undefined; // a response; we send no requests
+      return fail(msg && typeof msg === 'object' ? msg.id ?? null : null, -32600, 'Invalid Request');
     }
     const { id, method } = msg;
     const params = msg.params && typeof msg.params === 'object' ? msg.params : {};
@@ -32,21 +38,23 @@ export function createServer(memory, write) {
     try {
       switch (method) {
         case 'initialize': {
+          const m = await get();
           const asked = params.protocolVersion;
           return reply(id, {
             protocolVersion: SUPPORTED_VERSIONS.includes(asked) ? asked : SUPPORTED_VERSIONS[0],
             capabilities: { tools: { listChanged: false } },
             serverInfo: { name: 'personal-memory', title: 'Personal Memory', version: CORE_VERSION },
-            instructions: INSTRUCTIONS,
+            instructions: instructionsFor(m.policy),
           });
         }
         case 'ping':
           return isNotification ? undefined : reply(id, {});
         case 'tools/list':
-          return reply(id, { tools: TOOLS });
+          return reply(id, { tools: toolsFor((await get()).policy) });
         case 'tools/call': {
-          if (!TOOLS.some((t) => t.name === params.name)) return fail(id, -32602, `Unknown tool: ${params.name}`);
-          return reply(id, await callTool(memory, params.name, params.arguments || {}));
+          const m = await get();
+          if (!toolsFor(m.policy).some((t) => t.name === params.name)) return fail(id, -32602, `Unknown tool: ${params.name}`);
+          return reply(id, await callTool(m, params.name, params.arguments || {}, { exportNote }));
         }
         default:
           if (isNotification) return undefined; // notifications/initialized, cancelled, etc.
@@ -54,10 +62,15 @@ export function createServer(memory, write) {
       }
     } catch (e) {
       process.stderr.write(`[personal-memory] ${method} failed: ${e.stack || e}\n`);
-      if (!isNotification) fail(id, -32603, 'Internal error');
+      return isNotification ? undefined : fail(id, -32603, 'Internal error');
     }
-  }
+  };
+}
 
+/** Line-oriented wrapper for stdio. */
+export function createServer(memory, write) {
+  const handle = createHandler(memory);
+  const send = (msg) => msg && write(`${JSON.stringify(msg)}\n`);
   return {
     async onLine(line) {
       if (!line.trim()) return;
@@ -65,21 +78,24 @@ export function createServer(memory, write) {
       try {
         msg = JSON.parse(line);
       } catch {
-        return fail(null, -32700, 'Parse error');
+        return send(fail(null, -32700, 'Parse error'));
       }
       if (Array.isArray(msg)) {
-        for (const m of msg) await handle(m);
+        for (const m of msg) send(await handle(m));
       } else {
-        await handle(msg);
+        send(await handle(msg));
       }
     },
   };
 }
 
+const truthy = (v) => /^(true|1|yes)$/i.test(String(v ?? ''));
+
 function policyFromEnv(env) {
   const budget = Number(env.PERSONAL_MEMORY_BUDGET);
   return {
-    shareSensitive: /^(true|1|yes)$/i.test(String(env.PERSONAL_MEMORY_SHARE_SENSITIVE ?? '')),
+    autoRecord: truthy(env.PERSONAL_MEMORY_AUTO_RECORD),
+    shareSensitive: truthy(env.PERSONAL_MEMORY_SHARE_SENSITIVE),
     budget: Number.isFinite(budget) && budget > 0 ? budget : 300,
     maxBudget: Number.isFinite(budget) && budget > 500 ? budget : 500,
   };

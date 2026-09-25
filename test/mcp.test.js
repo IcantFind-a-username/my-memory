@@ -39,9 +39,9 @@ test('MCP handshake, tools, save and recall through the real server', async () =
     s.notify('notifications/initialized');
 
     const list = await s.request('tools/list', {});
-    assert.deepEqual(list.result.tools.map((t) => t.name), ['remember', 'recall', 'forget', 'memory_info']);
+    assert.deepEqual(list.result.tools.map((t) => t.name), ['remember', 'recall', 'lookup', 'forget', 'memory_info']);
     const schemaTokens = JSON.stringify(list.result.tools).length / 3;
-    assert.ok(schemaTokens < 1100, `tool definitions cost ~${schemaTokens.toFixed(0)} tokens per conversation`);
+    assert.ok(schemaTokens < 1300, `tool definitions cost ~${schemaTokens.toFixed(0)} tokens per conversation`);
 
     const noConsent = await s.request('tools/call', { name: 'remember', arguments: { words: '我很难过' } });
     assert.equal(noConsent.result.isError, true);

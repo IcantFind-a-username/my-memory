@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { TOOLS } from '../src/mcp/tools.js';
+import { toolsFor } from '../src/mcp/tools.js';
 
 test('MCPB manifest has the required fields and lists exactly the served tools', () => {
   const m = JSON.parse(fs.readFileSync(new URL('../packaging/claude-desktop/manifest.json', import.meta.url), 'utf8'));
@@ -11,6 +11,7 @@ test('MCPB manifest has the required fields and lists exactly the served tools',
   assert.ok(m.author.name);
   assert.equal(m.server.type, 'node');
   assert.ok(fs.existsSync(new URL(`../${m.server.entry_point}`, import.meta.url)));
-  assert.deepEqual(m.tools.map((t) => t.name), TOOLS.map((t) => t.name));
+  assert.deepEqual(m.tools.map((t) => t.name), toolsFor({ autoRecord: true }).map((t) => t.name));
+  assert.equal(m.server.mcp_config.env.PERSONAL_MEMORY_AUTO_RECORD, '${user_config.auto_record}');
   assert.equal(m.user_config.share_sensitive.default, false, 'sensitive sharing must default to off');
 });

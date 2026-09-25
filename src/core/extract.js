@@ -78,7 +78,7 @@ const META = /^(我)?(也|真的|就是)?不知道(是)?(为什么|为啥|怎么
 function meaningful(clause) {
   const stripped = clause.replace(new RegExp(RESTRICT.source, 'gi'), '').replace(new RegExp(IMPORTANT.source, 'gi'), '');
   const core = stripped.replace(/[\s\p{P}\p{S}]/gu, '');
-  if (/^(嗯|好的?|ok|okay|是的?|对|哦|啊|这很|这个很|谢谢(你)?|thanks?|thank you)$/i.test(core) || META.test(core)) return false;
+  if (/^(嗯+|好+的?|ok|okay|是的?|对+|哦+|啊+|哈+|这很|这个很|谢谢(你)?|thanks?|thank you|你好|在吗|hi|hello)$/i.test(core) || META.test(core)) return false;
   return /[\u4e00-\u9fff]/.test(core) ? core.length >= 2 : core.length >= 3;
 }
 

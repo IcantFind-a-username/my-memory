@@ -162,7 +162,7 @@ function entryLine(e, t, lang) {
 export function memoryFile(entries, { lang = 'zh', today, includeSensitive = false, maxNotes = 400 } = {}) {
   const t = TEXT[lang] || TEXT.zh;
   const allow = (s) => s === 'normal' || (s === 'sensitive' && includeSensitive);
-  const shared = entries.filter((e) => allow(e.sensitivity)).sort((a, b) => (a.day === b.day ? (a.savedAt < b.savedAt ? -1 : 1) : a.day < b.day ? -1 : 1));
+  const shared = entries.filter((e) => !e.tombstone && !e.hidden && !e.annotates && allow(e.sensitivity)).sort((a, b) => (a.day === b.day ? (a.savedAt < b.savedAt ? -1 : 1) : a.day < b.day ? -1 : 1));
   const lines = [t.title, '', ...t.intro, '', t.rulesTitle, '', ...t.rules, ''];
 
   if (shared.length) {

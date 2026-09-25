@@ -17,7 +17,7 @@ const dist = path.join(root, 'dist');
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 
 // Dependency order of the core modules (each only imports from earlier ones).
-export const CORE_ORDER = ['util', 'lexicon', 'extract', 'query', 'layers', 'retrieve', 'compile', 'memfile', 'memory'];
+export const CORE_ORDER = ['util', 'chain', 'lexicon', 'extract', 'query', 'layers', 'retrieve', 'compile', 'memfile', 'memory'];
 const PUBLIC_API = ['createMemory', 'analyzeQuery', 'parseEntry', 'estimateTokens', 'memoryFile', 'parseMemoryFile', 'CORE_VERSION', 'MemoryError'];
 
 /** Concatenate the ES modules into one classic script defining `PM`, each module in its own scope. */
