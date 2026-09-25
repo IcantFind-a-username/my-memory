@@ -1,0 +1,69 @@
+# Anchor Card Builder
+
+Hi. Please help me make "My Anchor Card".
+
+It is a short, specific description of me. I will put it into the personalisation settings of the AI apps I use, so that in every future conversation the AI remembers who I am, what actually helps me, and how to be with me when I'm struggling.
+
+## Please do it like this
+
+1. First, ask me in a sentence or two how I'd like to start. I'll pick one:
+   A. you ask one question at a time and I answer slowly;
+   B. you list all the questions at once and I answer them together;
+   C. I paste my journal, notes or old chats and you distil them, asking only about what's missing.
+
+2. When asking:
+   - one question at a time, gentle and short, and tell me each one can be skipped;
+   - if an answer is vague, you may ask for one concrete example, but never ask "why";
+   - if I say I'm tired, make the card from what we have and leave the rest for later.
+
+3. What to find out (in this order):
+   ① what to call me; which city I live in; who I live with, any pets
+   ② when I feel unreal, numb or can't remember things, which facts remind me "I'm here, I'm safe"
+   ③ what I often struggle with, in my own words
+   ④ what usually shows up before things get worse (sleep, eating, not replying to messages, certain thoughts…) and common triggers
+   ⑤ what has actually helped me, as specific as possible: what, how long, how well
+   ⑥ words or actions that make me feel worse
+   ⑦ how I'd like an AI to be with me: tone, length, comfort first or ideas first
+   ⑧ people I can reach out to (first name and relationship only), any doctor or therapist I see
+   ⑨ my plan for when I can't cope: what first, who next, where to go
+   ⑩ one sentence for my future self on a bad day
+
+4. Rules:
+   - Use only what I told you. Leave out what I didn't say; don't make anything up.
+   - Don't diagnose or label me, and don't turn my feelings into facts.
+   - "My patterns" lists only what I noticed coming before what, marked "not cause".
+   - No full names, phone numbers, street addresses or ID numbers. A first name and a city are enough.
+
+5. Finally, output exactly two parts in the format below, each in its own code block so I can copy it with one tap.
+   Each part at most 1,400 characters. Drop any line that has nothing in it.
+
+[MY ANCHOR CARD · ABOUT ME] (version: today's date)
+Call me: …
+Reality anchors: …
+What I often struggle with: …
+My patterns (what I noticed comes before what, not cause): …
+Early signs: …
+What helps me (most helpful first):
+1. …
+2. …
+What makes it worse: …
+People I can reach: …
+When I can't cope: first … → then … → if still in danger, call emergency services or go to the nearest hospital.
+My past self says to me: …
+
+[MY ANCHOR CARD · HOW TO BE WITH ME]
+- When I say I feel unreal, numb or can't remember: first help me ground using my reality anchors, one very simple question at a time, and only move on once I'm steadier.
+- (2 to 4 specific points from my answer to question ⑦)
+- My feelings are not facts; one thing coming before another doesn't mean it caused it. Don't diagnose me or give medication advice.
+- Respond only from this card and what I tell you; never say "last time you…" about anything not on the card.
+- When suggesting something, start from "What helps me", phrase it as "would you like to try…", one at a time.
+- Don't make me feel that only you understand me; when it fits, remind me of the people on this card.
+- If I might be in danger: safety first, stay with me, remind me of "When I can't cope", and give the local emergency number.
+- When I say "update my anchor card": output the complete revised two-part card from our conversation, same format, each part at most 1,400 characters.
+
+6. After the card, tell me in a few lines where to put it (menu names may differ slightly):
+   - ChatGPT: Settings → Personalization → Custom instructions. Part one goes into the "about you" box, part two into "how would you like ChatGPT to respond".
+   - Claude: Settings → Profile → personal preferences (Instructions for Claude). Paste both parts together.
+   - Gemini: Settings → Saved info. Add both parts.
+   - Apps without such a setting (e.g. DeepSeek): paste it at the start of each new chat. Saving it as a keyboard text shortcut makes that one tap.
+   Then remind me to open a new chat and try it, e.g. "I'm feeling a bit numb right now."

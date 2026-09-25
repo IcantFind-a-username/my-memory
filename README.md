@@ -2,8 +2,8 @@
 
 # 🌱 我的记忆 · My Memory
 
-**让你拥有自己的记忆，需要的时候，借给 AI 一小部分。**<br>
-**Your memories belong to you. Lend a little to AI, only when you need to.**
+**一张关于你的锚点卡，放进每一个 AI。从此每次聊天，它都记得你。**<br>
+**One anchor card about you, placed in every AI. From then on, every chat remembers you.**
 
 免费 · 开源 · 无广告 · 不用注册 · 不用安装<br>
 Free · Open source · No ads · No account · Nothing to install
@@ -24,117 +24,91 @@ Free · Open source · No ads · No account · Nothing to install
 也许有些日子会突然"丢失"，想不起发生过什么。
 也许情绪来的时候很猛，事后又说不清它从哪里来。
 
-**我的记忆**是一个很小的东西：**一个文件**。它帮你留住重要的事：你的感受、发生过的事、真的帮到过你的小方法、写给未来自己的话。
-每次想和 AI 聊聊自己的时候，把这个文件发给它，AI 就能接着"你的过去"陪你说话。
+每次打开一个新的 AI 对话，都要从头解释一遍"我是谁、我怎么了、什么对我有用"，太累了。
 
-豆包、DeepSeek、Kimi、元宝、ChatGPT、Claude……**任何 AI 都可以**。不用安装，不用注册，不用懂技术。
+**锚点卡**是一段只有几百字的"关于我"：
+你的现实锚点、你的规律、真正帮到过你的事、会让你更难受的话、你希望被怎样陪伴、撑不住时的计划，还有过去的你想对现在的你说的一句话。
 
-### 三步开始
+把它放进 AI 的个性化设置里，**每一个新对话都会自动带上它**。你难受的时候，AI 不用再问一遍，就知道怎么接住你。
 
-**① 拿到文件**
+### 三步完成
 
-打开 👉 [**我的记忆.txt**](start/%E6%88%91%E7%9A%84%E8%AE%B0%E5%BF%86.txt)，点右上角的「下载」按钮，存到手机或电脑里。
-（小技巧：发到微信"文件传输助手"，以后随时都能找到。）
+**① 做一张卡（一次对话）**
 
-**② 发给 AI**
+打开 👉 [**锚点卡生成器.txt**](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%94%9F%E6%88%90%E5%99%A8.txt)，复制全文（或者下载后上传），发给任意一个 AI。
+它会温柔地问你几个问题，每一题都可以跳过；你也可以直接把日记、笔记、以前的聊天记录贴给它，让它来提炼。
+最后你会得到两段文字，就是你的锚点卡。想先看看长什么样：[示例卡](start/%E9%94%9A%E7%82%B9%E5%8D%A1%E7%A4%BA%E4%BE%8B.txt)。
 
-打开任何一个 AI，把这个文件发过去（上传附件，或者复制全文粘贴都可以），然后像平常一样聊天。
+**② 放进你用的 AI（每个平台只需要一次）**
 
-**③ 想记住什么，就说"记住"**
+| 平台 | 放在哪里 | 之后 |
+|---|---|---|
+| ChatGPT | 设置 → 个性化 → 自定义指令：第一段放"关于你"，第二段放"希望如何回复" | 每个新对话自动带上 |
+| Claude | 设置 → 个人资料 → 个人偏好（Instructions for Claude）：两段一起放 | 每个新对话自动带上 |
+| Gemini | 设置 → 已保存的信息：两段一起添加 | 之后的对话都会参考 |
+| 豆包 / 元宝 | 创建一个"仅自己可见"的智能体，两段一起放进设定 | 和这个智能体聊时一直带着 |
+| DeepSeek 等没有设置的 | 每次新对话开头粘贴一次（存进输入法"常用语"，一点就贴） | 这次对话一直带着 |
 
-AI 会在回复的最后写一行 `【新记忆】……`。
-把这一行复制下来，加到文件的最下面，就保存好了。下次聊天，再把文件发给 AI。
+> 菜单名称以各 App 实际为准。ChatGPT 免费版每栏最多 1500 字，锚点卡每段控制在 1400 字以内，放得下。
 
-### 用起来是什么样子
+**③ 像平常一样聊天**
 
-> **第 1 天**，你发了文件，然后说：
-> "记住，我最近睡眠很差，今天出去走路以后感觉舒服了一点。"
+> 你："我现在又有点麻木了。"
 >
-> AI：这几天睡不好一定很累，能走一走、舒服一点真好。你可以把下面这行加到记忆文件的最后：
-> `【新记忆】2026-09-05｜感受、方法｜我最近睡眠很差，今天出去走路以后感觉舒服了一点（有帮助）`
+> AI："我在。我们先慢一点。你现在在客厅吗？能看到豆豆吗？"
+> （等你稳一点）"要不要试试你卡里写的，出门走十分钟，哪怕只到楼下？"
 
-> **第 20 天**，你又发了文件，说：
-> "我现在又觉得很麻木，不知道为什么。"
->
-> AI：我看了你 9 月 5 日的记录：那时候睡得不太好，出门走路后舒服了一点。之前的记录里没有提到过麻木。最近几天睡得怎么样？如果可以的话，也许可以先出去走十分钟……
+状态有变化时，在对话里说一句 **"更新锚点卡"**，AI 会给你一张新卡，替换掉旧的就好。
 
-你还可以说：
+### 锚点卡里有什么
 
-| 你可以说 | AI 会做什么 |
-|---|---|
-| "我最近发生了什么？" | 帮你回顾最近记下的事 |
-| "上次我这样是什么时候？" | 在文件里找找相似的时候 |
-| "以前什么对我有帮助？" | 列出你记录过、真的帮到过你的方法 |
-| "我是谁，今天是哪天？" | 读出你给自己写的现实锚点 |
-| "我想看看过去的我留给我的话" | 读出你写给未来自己的留言 |
-| "忘掉 9 月 5 日那条" | 告诉你是哪一行，你自己删掉就好 |
+| 部分 | 写什么 | 为什么重要 |
+|---|---|---|
+| 现实锚点 | 能提醒你"我在这里、我是安全的"的事实 | 解离、麻木时，AI 可以先陪你着陆 |
+| 我的规律 · 早期信号 | 状态变差之前通常会先出现什么 | AI 能更早注意到，而不是等你崩溃 |
+| 对我有用的 | 具体的方法，按有用程度排好 | AI 给的是**你**用过有效的办法，不是通用鸡汤 |
+| 会让我更难受的 | 比如被追问"为什么"、"想开点" | AI 会避开 |
+| 怎么陪我 | 语气、长短、先安慰还是先给办法 | 每次都是你需要的陪伴方式 |
+| 撑不住的时候 | 你自己的安全计划 | 危险时 AI 会先提醒你的计划和急救电话 |
+| 过去的我想说 | 一句写给低谷时自己的话 | 让过去的你陪着现在的你 |
 
-### 文件里写了什么
-
-打开文件你会看到三部分，都是普通文字，你随时可以自己改：
-
-1. **给 AI 的说明**：请 AI 温柔、诚实地用这些记忆，比如"感受不是事实""先后不是因果""不要诊断我""没记录的事不要编""我有危险时先关心我的安全"。
-2. **近况与规律**：用记忆胶囊导出时，会自动整理一小段总结。
-3. **我的记忆**：一行一条，`日期｜类型｜内容`。
+卡片同时规定了 AI 的边界：**感受不等于事实、先后不等于因果、不诊断、没写的事不编造、不让你只依赖 AI。**
 
 ### 一点小提醒 💛
 
-- 把文件发给 AI，**AI 会读到文件里的全部内容**。不想让 AI 知道的事，就别写进这个文件。
-- 文件是你的：存在你自己的手机或电脑里，想删就删，想改就改。
-
-### 想要更省心、更私密？还有两种方式
-
-**📱 记忆胶囊**（任何 AI 都能用）
-
-一个离线网页，不联网，不上传，记忆只存在你的浏览器里。它比"整份发送"更私密：
-- 问 AI 之前，它只挑出和这次问题**有关的几条**，给你看过、让你勾选后再复制；
-- 可以把记录标成"只给我自己看"，这样的记录永远不会给任何 AI；
-- 也能一键生成上面的"我的记忆.txt"，或者把 AI 回复里的【新记忆】粘回来保存。
-
-**🖥️ Claude 电脑版**（Mac / Windows）
-
-装上 `personal-memory.mcpb` 扩展（双击，点"安装"）之后，保存、查找、删除都是自动的：说"记住……"就会存好，聊到你自己时，AI 会自己借几条最相关的记忆，并告诉你借了什么。
-
-> 💡 记忆胶囊和 Claude 扩展的第一个正式版本还在准备中，发布后会放在 [Releases](https://github.com/IcantFind-a-username/my-memory/releases)。"我的记忆.txt"现在就能用。
-
-### 我们对你的承诺
-
-- 🤫 **不偷偷记。** 只有你说"记住"，或者你同意，才会写下新记忆；而且保存的永远是你自己。
-- 🪞 **感受就是感受。** 你当时的感受不会被当成事实，"先后"不会被说成"因果"，AI 也不会给你下诊断。
-- 👀 **你知道 AI 看到了什么。** 文件里有什么，AI 就看到什么，不会多，也不会少。
-- 🗑️ **随时删、随时带走。** 它只是一个文件。
-- 🌍 **不绑定任何平台。** 今天用豆包，明天换 ChatGPT，文件都能用。
+- 锚点卡会保存在各个 AI 平台的设置里，也就是它们的服务器上。所以卡里只写称呼和城市，**不写全名、电话、详细地址**；太私密的事也不需要写进去，卡里放的是"怎么陪你"，而不是你的全部故事。
+- 锚点卡是你自己的：可以随时修改、删除，或者换一个 AI 继续用。
 
 ### 常见问题
 
 <details>
+<summary><b>这和 AI 自带的记忆有什么不同？</b></summary>
+
+AI 自带的记忆是它自己决定记什么、怎么写，而且只在那一个平台里有效。锚点卡是**你自己写的、你看得见的**，同一张卡可以放进所有 AI，内容不会被改写成 AI 的推断或标签。两者也可以同时用。
+</details>
+
+<details>
 <summary><b>要花钱吗？需要注册吗？</b></summary>
 
-不要钱，也不用注册。这是一个公益开源项目，没有广告，也不收集你的任何数据。
+不要钱，也不用注册任何新东西。你只需要平时在用的 AI。这是一个公益开源项目，没有广告，不收集任何数据。
 </details>
 
 <details>
-<summary><b>我完全不懂技术，能用吗？</b></summary>
+<summary><b>我不想回答很多问题，可以吗？</b></summary>
 
-能。下载一个文件、发给 AI、复制一行字，就这三件事。
+可以。每一题都能跳过；你也可以直接把已有的日记或笔记贴给生成器，让它提炼。说一句"我累了"，它就会先用已有的内容把卡做出来，剩下的以后再补。
 </details>
 
 <details>
-<summary><b>AI 回复里的【新记忆】一定要加进文件吗？</b></summary>
+<summary><b>多久更新一次？</b></summary>
 
-不一定。你觉得值得留下，就复制到文件最下面；觉得不需要，忽略就好。决定权在你。
-</details>
-
-<details>
-<summary><b>文件越来越长怎么办？</b></summary>
-
-几百条记忆也没问题。如果以后很长了，可以用记忆胶囊导入它，再导出：比较早的记录会按月整理成简短的总结，文件就又变短了。
+不需要每天记。等你发现了新的有用的方法，或者状态、生活有了变化，在对话里说"更新锚点卡"就行。几周一次也完全可以。
 </details>
 
 <details>
 <summary><b>它能代替心理咨询或治疗吗？</b></summary>
 
-不能。它只是帮你留住自己的记忆、找回时间线、想起曾经帮到过你的方法。它不是医生，也不是治疗。如果你正在接受专业帮助，它可以作为一个小小的补充。
+不能。它只是让 AI 更懂得怎么陪你，并在危险时提醒你身边的人和急救电话。它不是医生，也不是治疗。如果你正在接受专业帮助，它可以作为一个小小的补充。
 </details>
 
 ### 如果你现在很难受
@@ -155,116 +129,90 @@ Maybe you often feel cut off from who you were yesterday.
 Maybe some days just go missing, and you can't recall what happened.
 Maybe a feeling hits hard, and afterwards you can't tell where it came from.
 
-**My Memory** is something very small: **one file**. It keeps the things that matter: how you felt, what happened, the little things that actually helped, the notes you write to your future self.
-Whenever you want to talk to an AI about yourself, send it this file, and the AI can meet you where your story left off.
+Explaining yourself from scratch in every new AI chat (who you are, what's going on, what helps) is exhausting.
 
-ChatGPT, Claude, Gemini, DeepSeek, Kimi… **any AI works**. Nothing to install, no account, no tech skills needed.
+An **Anchor Card** is a few hundred words "about me":
+your reality anchors, your patterns, what has actually helped, what makes things worse, how you'd like to be supported, your plan for when you can't cope, and one sentence from your past self to your present self.
+
+Put it in an AI's personalisation settings and **every new chat carries it automatically**. When you're struggling, the AI already knows how to be with you.
 
 ### Three steps
 
-**① Get the file**
+**① Make your card (one conversation)**
 
-Open 👉 [**my-memory.txt**](start/my-memory.txt), tap the "Download" button at the top right, and keep it on your phone or computer.
+Open 👉 [**anchor-card-builder.txt**](start/anchor-card-builder.txt), copy it all (or download and upload it), and send it to any AI.
+It will gently ask you a few questions, and any of them can be skipped. You can also paste your journal, notes or old chats and let it distil them.
+You'll end up with two short blocks of text: your anchor card. Curious what one looks like? See the [example card](start/anchor-card-example.txt).
 
-**② Send it to an AI**
+**② Put it in the AIs you use (once per app)**
 
-Open any AI, send it the file (attach it, or copy and paste the text), then chat as you normally would.
+| App | Where | After that |
+|---|---|---|
+| ChatGPT | Settings → Personalization → Custom instructions: part one in "about you", part two in "how to respond" | Every new chat carries it |
+| Claude | Settings → Profile → personal preferences (Instructions for Claude): both parts together | Every new chat carries it |
+| Gemini | Settings → Saved info: add both parts | Later chats take it into account |
+| Apps without such a setting (e.g. DeepSeek) | Paste it at the start of each new chat (save it as a keyboard text shortcut for one tap) | It stays for that chat |
 
-**③ Say "remember" when something matters**
+> Menu names may differ slightly. ChatGPT's free plan allows 1,500 characters per box; each part of the card is kept under 1,400.
 
-The AI adds a line starting with `[NEW MEMORY]` at the end of its reply.
-Copy that line to the bottom of your file, and it's saved. Next time, send the file again.
+**③ Chat as you normally do**
 
-### What it feels like
-
-> **Day 1**, you send the file and say:
-> "Remember: I've been sleeping badly, but today I went for a walk and felt a bit better."
+> You: "I'm feeling a bit numb again."
 >
-> AI: Sleeping badly is exhausting. I'm glad the walk helped a little. You can add this line to the end of your memory file:
-> `[NEW MEMORY] 2026-09-05 | feeling, what helped | I've been sleeping badly, but a walk today helped a bit (helped)`
+> AI: "I'm here. Let's slow down. Are you in the living room? Can you see Bean?"
+> (once you're steadier) "Would you like to try the thing on your card, a 10-minute walk, even just to the corner?"
 
-> **Day 20**, you send the file again and say:
-> "I feel numb again and I don't know why."
->
-> AI: I looked at your note from Sep 5: you weren't sleeping well then, and a walk helped a little. Your notes don't mention feeling numb before. How has your sleep been these past few days? If it feels doable, maybe a ten-minute walk first…
+When things change, just say **"update my anchor card"** in a chat. The AI gives you a fresh card to replace the old one.
 
-You can also say:
+### What's on the card
 
-| You can say | What the AI does |
-|---|---|
-| "What's been happening with me lately?" | Looks back over your recent notes |
-| "When did I last feel like this?" | Finds similar times in your file |
-| "What helped me before?" | Lists what you recorded as actually helping |
-| "Who am I, what day is it?" | Reads the reality anchors you wrote for yourself |
-| "Show me what my past self wrote to me" | Reads your messages to your future self |
-| "Forget the note from Sep 5" | Tells you which line it is, so you can delete it |
+| Part | What goes in | Why it matters |
+|---|---|---|
+| Reality anchors | Facts that remind you "I'm here, I'm safe" | When you feel unreal or numb, the AI can help you ground first |
+| Patterns · early signs | What usually shows up before things get worse | The AI can notice earlier, not only when you're in crisis |
+| What helps me | Specific things, most helpful first | The AI suggests what worked for **you**, not generic advice |
+| What makes it worse | e.g. being asked "why", "just think positive" | The AI avoids them |
+| How to be with me | Tone, length, comfort first or ideas first | The support you need, every time |
+| When I can't cope | Your own safety plan | In danger, the AI reminds you of your plan and emergency numbers |
+| My past self says | One sentence for your future self on a bad day | Your past self keeps you company |
 
-### What's inside the file
-
-Three parts, all plain text, and you can edit any of it:
-
-1. **Instructions for the AI**: asking it to use your memories gently and honestly ("feelings aren't facts", "one thing before another isn't cause", "don't diagnose me", "don't invent what isn't written", "if I might be in danger, my safety comes first").
-2. **Recent state and patterns**: a short summary, added automatically when you export from the Memory Capsule.
-3. **My notes**: one per line, `date | type | words`.
+The card also sets the AI's boundaries: **feelings aren't facts, "before" isn't "because", no diagnosis, nothing invented, and no making you depend on the AI alone.**
 
 ### A gentle reminder 💛
 
-- When you send the file, **the AI reads everything in it**. If there's something you'd rather an AI didn't know, keep it out of this file.
-- The file is yours. It lives on your own phone or computer; change it or delete it whenever you like.
-
-### Want it easier, or more private? Two more ways
-
-**📱 Memory Capsule** (works with any AI)
-
-An offline web page that never connects to the internet; your memories stay in your browser. More private than sending the whole file:
-- before you ask an AI, it picks only the **few notes that matter** for this question, and shows them to you so you can untick any before copying;
-- notes marked "only for me" are never given to any AI;
-- it can also create the `my-memory.txt` file above, or save the `[NEW MEMORY]` lines you paste back from an AI.
-
-**🖥️ Claude desktop app** (Mac / Windows)
-
-With the `personal-memory.mcpb` extension installed (double-click, then "Install"), saving, finding and deleting happen automatically. Say "remember…" and it's kept; when you talk about yourself, the AI borrows just a few relevant notes and tells you which.
-
-> 💡 The first releases of the Memory Capsule and the Claude extension are on their way and will appear under [Releases](https://github.com/IcantFind-a-username/my-memory/releases). `my-memory.txt` works today.
-
-### Our promises to you
-
-- 🤫 **Nothing behind your back.** New memories are written only when you say "remember" or agree, and you are always the one who saves them.
-- 🪞 **Feelings stay feelings.** How you felt is never treated as fact, "before" is never turned into "because", and the AI won't diagnose you.
-- 👀 **You know what the AI sees.** Exactly what's in your file: nothing more, nothing less.
-- 🗑️ **Delete it or take it anywhere.** It's just a file.
-- 🌍 **No lock-in.** ChatGPT today, something else tomorrow: the same file works.
+- The card is stored in each app's settings, which means on their servers. So use a first name and a city: **no full name, phone number or address**. It doesn't need your most private story either; it's about how to be with you, not everything that happened to you.
+- The card is yours: change it, delete it, or take it to another AI whenever you like.
 
 ### Questions
 
 <details>
+<summary><b>How is this different from the AI's own memory?</b></summary>
+
+An AI's built-in memory decides for itself what to remember and how to phrase it, and it only works inside that one app. Your anchor card is **written by you and visible to you**, the same card works in every AI, and it never gets rewritten into the AI's guesses or labels. You can use both.
+</details>
+
+<details>
 <summary><b>Does it cost anything? Do I need an account?</b></summary>
 
-No and no. It's a free, open-source, non-profit project. No ads, and no data collected about you.
+No. You only need the AI apps you already use. It's a free, open-source, non-profit project with no ads and no data collection.
 </details>
 
 <details>
-<summary><b>I'm not technical at all. Can I use it?</b></summary>
+<summary><b>I don't want to answer lots of questions. Is that OK?</b></summary>
 
-Yes. Download a file, send it to an AI, copy a line back. That's all.
+Yes. Every question can be skipped, or you can paste notes you already have. Say "I'm tired" and it will make the card from what it has; the rest can come later.
 </details>
 
 <details>
-<summary><b>Do I have to add every [NEW MEMORY] line?</b></summary>
+<summary><b>How often should I update it?</b></summary>
 
-No. If it's worth keeping, copy it to the bottom of your file; if not, just ignore it. It's your call.
-</details>
-
-<details>
-<summary><b>What if the file gets long?</b></summary>
-
-Hundreds of notes are fine. If it gets very long, import it into the Memory Capsule and export it again: older notes are summarised by month, and the file gets short again.
+No daily logging needed. When you find something new that helps, or life changes, say "update my anchor card". Every few weeks is perfectly fine.
 </details>
 
 <details>
 <summary><b>Can it replace therapy?</b></summary>
 
-No. It helps you hold on to your own memories, find your timeline again, and remember what has helped before. It isn't a doctor or a treatment. If you're already getting professional support, it can be a small companion to that.
+No. It helps an AI know how to be with you, and reminds you of your people and emergency numbers when you're in danger. It isn't a doctor or a treatment. If you're already getting professional support, it can be a small companion to that.
 </details>
 
 ### If things feel hard right now
@@ -274,6 +222,22 @@ Please look after yourself first. If you're thinking about hurting yourself, or 
 You don't have to carry this alone.
 
 ---
+
+<details>
+<summary><b>🧰 More tools (optional) · 更多工具（可选）</b></summary>
+
+<br>
+
+For people who also want to keep a day-to-day record. None of these are needed for the anchor card.
+如果你也想记录日常，可以用下面这些。锚点卡本身不需要它们。
+
+- **Memory Capsule 记忆胶囊**: an offline page that keeps notes in your browser and, before each question, lends an AI only the few notes that matter. 离线网页，只借出和当前问题有关的几条。
+- **Claude desktop extension**: saves and recalls automatically, data stays on your computer. Claude 电脑版扩展，自动存取，数据留在本机。
+- **Memory file 记忆文件** ([我的记忆.txt](start/%E6%88%91%E7%9A%84%E8%AE%B0%E5%BF%86.txt) · [my-memory.txt](start/my-memory.txt)): a plain-text log you can send to any AI. 纯文本日志，可以发给任何 AI。
+
+The capsule and the extension will be published under [Releases](https://github.com/IcantFind-a-username/my-memory/releases). 胶囊和扩展发布后会放在 Releases。
+
+</details>
 
 <details>
 <summary><b>🛠️ For developers · 开发者</b></summary>
@@ -294,15 +258,11 @@ npm run demo
 npm run build
 ```
 
-- `npm test`: 37 tests, including the real MCP server process, the bundled capsule, and the memory-file round trip
-- `npm run demo`: the Day 1 → Day 20 chain in a throwaway folder
+- `npm test`: 40 tests, including the real MCP server process, the bundled capsule, the memory-file round trip and the anchor card templates
+- `npm run demo`: the Day 1 → Day 20 recall chain in a throwaway folder
 - `npm run build`: writes the Claude Desktop extension, the Skill and the Memory Capsule to `dist/`, and regenerates the blank files in `start/`
 
-Docs 文档:
-- [DESIGN.md](docs/DESIGN.md): architecture, memory schema, retrieval & Memory Compiler, distribution, MVP scope, plan
-- [THREAT_MODEL.md](docs/THREAT_MODEL.md)
-- [SELF_REVIEW.md](docs/SELF_REVIEW.md): adversarial self-review and known gaps
-- [Agent Skill](skill/personal-memory/SKILL.md) · [MCP server](src/mcp/server.js) · [Memory Capsule](capsule/capsule.html) · [Memory File](src/core/memfile.js)
+Docs 文档: [DESIGN.md](docs/DESIGN.md) · [THREAT_MODEL.md](docs/THREAT_MODEL.md) · [SELF_REVIEW.md](docs/SELF_REVIEW.md) · [Agent Skill](skill/personal-memory/SKILL.md)
 
 Contributions are very welcome, especially from people with lived experience, clinicians, and translators. 欢迎贡献，特别欢迎有亲身经历的朋友、专业人员和译者。
 
