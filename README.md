@@ -34,7 +34,7 @@ Free · Open source · No ads · No account
 | 适合 | Claude、ChatGPT | 任何 AI（豆包、DeepSeek、Kimi……） |
 | 记录 | 聊天时自动记录你的原话 | 不记录日常，只放一张"关于我"的卡 |
 | 查找 | AI 能查到确切的哪一天、哪句话 | AI 每次对话都读得到这张卡 |
-| 手机 | Claude 手机 App ✅（在网页上添加一次，自动同步）；ChatGPT 手机 App 需要正式上架（审核中不保证通过） | ✅ |
+| 手机 | Claude 手机 App ✅（在网页上添加一次，自动同步）；ChatGPT 手机 App 需要正式上架（尚未提交；要经过 OpenAI 审核，不保证通过） | ✅ |
 | 现在能用吗 | 代码已完成；**还需要部署一个公网地址**（仓库里带了一键部署配置） | ✅ 今天就能用 |
 
 ---
@@ -154,7 +154,7 @@ When you talk to an AI, it looks up the exact record first ("On Sep 5 at 21:14 y
 | For | Claude, ChatGPT | Any AI |
 | Recording | Your words are kept automatically as you chat | No daily log, just one "about me" card |
 | Finding | The AI can find the exact day and sentence | Every chat can read the card |
-| Phone | Claude app ✅ (add once on the web, syncs to iPhone/Android); ChatGPT app needs a published app (review not guaranteed) | ✅ |
+| Phone | Claude app ✅ (add once on the web, syncs to iPhone/Android); ChatGPT app needs a published app (not submitted yet; OpenAI review, approval not guaranteed) | ✅ |
 | Available now? | Code is ready; **a public address still has to be deployed** (one-click config included) | ✅ Today |
 
 ### 🗂️ Memory archive
