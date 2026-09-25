@@ -15,6 +15,7 @@
   "homepage": "https://github.com/IcantFind-a-username/my-memory",
   "support": "https://github.com/IcantFind-a-username/my-memory/issues",
   "license": "MIT",
+  "icon": "icon.png",
   "keywords": [
     "memory",
     "privacy",

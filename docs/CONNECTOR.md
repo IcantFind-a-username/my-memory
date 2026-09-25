@@ -1,7 +1,19 @@
 # 在线连接器 · Online connector
 
-让 **ChatGPT** 和 **Claude（网页、手机、电脑）** 用上同一个记忆库。
-用户只需要在 AI 的设置里添加一次网址，之后聊天会自动记录原话，AI 回答前可以查到确切的记录。
+让 **Claude（网页、电脑、iPhone、安卓）** 和 **ChatGPT** 用上同一个记忆库。
+用户只需要添加一次，之后聊天会自动记录原话，AI 回答前可以查到确切的记录。
+
+## 手机能不能用
+
+| | 怎么接入 | 手机 App |
+|---|---|---|
+| Claude | 在 claude.ai 网页上添加连接器 `https://你的域名/mcp`，按提示登录（或者直接填私人连接地址） | ✅ 网页上加一次，iPhone 和安卓自动同步 |
+| ChatGPT | 上架前：只能在网页版开发者模式里用。上架后：在应用目录里连接 | ⚠️ 必须上架（见 [CHATGPT_APP.md](CHATGPT_APP.md)），而且有报告称手机上写入类工具被禁用，需要实测 |
+
+## 两种接入方式
+
+- **公开地址 + 登录（OAuth 2.1）**：`https://你的域名/mcp`。AI 应用会打开授权页，用户在那里新建记忆库，或者粘贴私人页面链接连接已有的。上架 ChatGPT 必须用这种方式。连接后的令牌会一直有效，直到用户在私人页面点"断开所有通过登录连接的 AI"。
+- **私人连接地址**：`https://你的域名/u/<私人钥匙>/mcp`，不需要登录，适合 Claude 自己用。
 
 Claude 电脑版也可以不用在线版，直接装本地扩展（`dist/personal-memory.mcpb`），数据只在自己电脑上。
 
@@ -40,7 +52,9 @@ cloudflared tunnel --url http://localhost:8787
 
 ## 正式部署
 
-任何能跑 Docker、带持久化磁盘和 HTTPS 的地方都可以。数据目录是 `/data`，只放密文。
+**最简单：Render 一键部署。** 仓库里带了 `render.yaml`：在 Render 注册 → New → Blueprint → 选择这个 GitHub 仓库 → 确认。它会自动构建、分配 HTTPS 地址、挂 1 GB 磁盘，并生成服务器密钥。持久化磁盘需要付费实例（以 Render 当前价格为准）。部署好后，页面地址就是你的服务地址，也可以在 Render 里绑定自己的域名。
+
+也可以部署在任何能跑 Docker、带持久化磁盘和 HTTPS 的地方。数据目录是 `/data`，只放密文。
 
 ```bash
 docker build -t personal-memory .
@@ -60,13 +74,17 @@ docker run -d --name personal-memory -p 8787:8787 -v personal-memory-data:/data 
 |---|---|---|
 | `PORT` | 8787 | 监听端口 |
 | `PERSONAL_MEMORY_DATA` | `./data` | 加密数据目录 |
-| `PUBLIC_URL` | 从请求推断 | 页面上显示的网址，正式部署时请设置 |
+| `PUBLIC_URL` | 从请求推断（Render、Fly.io 会自动识别） | 页面上显示的网址，也是 OAuth 的 issuer |
+| `PERSONAL_MEMORY_SECRET` | 首次启动时生成 `/data/server.key` | 签发登录令牌的服务器密钥。更换它会让所有已连接的 AI 需要重新登录 |
+| `VERIFY_PATH` / `VERIFY_TOKEN` | 无 | 平台要求的域名验证（比如上架 ChatGPT） |
 
 ## 添加到 AI
 
-**Claude**（免费版可添加 1 个自定义连接器）：Customize → Connectors → **+** → 名称"我的记忆"，网址填 `…/u/<私人钥匙>/mcp`。
+**Claude**（免费版可添加 1 个自定义连接器）：在 claude.ai 上 Customize → Connectors → **+** → 名称"我的记忆"，网址填 `https://你的域名/mcp` → 连接 → 在授权页选择"连接我已有的记忆库"或"新建"。手机 App 会自动同步。
 
-**ChatGPT**（网页版，Plus 及以上）：Settings → Security and login → 打开 Developer mode；Settings → Apps & Connectors → Create → 填网址，Authentication 选 No authentication。
+**ChatGPT 网页版（上架前测试用）**（Plus 及以上）：Settings → Security and login → 打开 Developer mode；Settings → Apps & Connectors → Create → 网址填 `https://你的域名/mcp`，Authentication 选 OAuth。
+
+**ChatGPT 手机版**：上架后在应用目录里连接，见 [CHATGPT_APP.md](CHATGPT_APP.md)。
 
 菜单名称以平台实际为准。
 
@@ -75,9 +93,12 @@ docker run -d --name personal-memory -p 8787:8787 -v personal-memory-data:/data 
 | 路径 | 用途 |
 |---|---|
 | `GET /` | 创建页 |
-| `POST /u/<token>/mcp` | MCP（Streamable HTTP，JSON 响应；通知返回 202） |
+| `POST /mcp` | MCP（需要 OAuth 令牌；未登录返回 401 并指向元数据） |
+| `GET /.well-known/oauth-protected-resource`、`/.well-known/oauth-authorization-server` | OAuth 元数据 |
+| `POST /register`、`GET/POST /authorize`、`POST /token` | 动态注册、授权页、令牌（PKCE S256、刷新） |
+| `POST /u/<token>/mcp` | MCP（私人连接地址；Streamable HTTP，JSON 响应；通知返回 202） |
 | `GET /u/<token>/` | 私人页面：记录、完整性、设置、导出、销毁 |
 | `GET /u/<token>/export.json` | 下载全部记录（含校验链） |
 | `GET /health` | 健康检查 |
 
-以后可以改进的：OAuth 登录（替代"链接即钥匙"）、钥匙的纸质恢复码、多设备的本地加密同步。
+以后可以改进的：钥匙的纸质恢复码、按应用单独断开、多设备的本地加密同步。

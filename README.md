@@ -34,7 +34,8 @@ Free · Open source · No ads · No account
 | 适合 | Claude、ChatGPT | 任何 AI（豆包、DeepSeek、Kimi……） |
 | 记录 | 聊天时自动记录你的原话 | 不记录日常，只放一张"关于我"的卡 |
 | 查找 | AI 能查到确切的哪一天、哪句话 | AI 每次对话都读得到这张卡 |
-| 现在能用吗 | Claude 电脑版：可以自己构建安装；在线版（Claude 网页 / 手机、ChatGPT）：代码已完成，**还没有公开上线的地址** | ✅ 今天就能用 |
+| 手机 | Claude 手机 App ✅（在网页上添加一次，自动同步）；ChatGPT 手机 App 需要正式上架（审核中不保证通过） | ✅ |
+| 现在能用吗 | 代码已完成；**还需要部署一个公网地址**（仓库里带了一键部署配置） | ✅ 今天就能用 |
 
 ---
 
@@ -50,10 +51,11 @@ Free · Open source · No ads · No account
 
 **怎么用**
 
-- **Claude 电脑版**：安装 `personal-memory.mcpb` 扩展（双击，点"安装"）。记忆只存在你自己的电脑上。
-- **Claude 网页 / 手机、ChatGPT**：打开在线版网址，点"创建我的记忆库"，你会得到一个私人链接，把它添加到 Claude 的"连接器"或 ChatGPT 的"开发者模式 → 连接器"里，只需要添加一次。
+- **Claude（网页、iPhone、安卓、电脑）**：在 claude.ai 网页上添加连接器（在线版网址 + `/mcp`），在弹出的页面里新建记忆库或连接已有的。网页上加一次，手机 App 自动同步。
+- **ChatGPT**：正式上架后，在 ChatGPT（手机或网页）的应用目录里连接；上架之前只能在网页版的开发者模式里试用。
+- **只用 Claude 电脑版、不想放在任何服务器上**：安装 `personal-memory.mcpb` 扩展（双击，点"安装"），记忆只存在你自己的电脑上。
 
-> 💡 扩展会在 [Releases](https://github.com/IcantFind-a-username/my-memory/releases) 发布；在线版需要一个部署好的地址，目前还没有公开上线。想自己先试或自己部署，见 [在线连接器说明](docs/CONNECTOR.md)。
+> 💡 在线版需要先部署一个公网地址，目前还没有公开上线；部署方法见 [在线连接器说明](docs/CONNECTOR.md)，上架 ChatGPT 的材料见 [CHATGPT_APP.md](docs/CHATGPT_APP.md)。电脑版扩展会在 [Releases](https://github.com/IcantFind-a-username/my-memory/releases) 发布。
 
 **你的记忆在哪里**
 
@@ -152,7 +154,8 @@ When you talk to an AI, it looks up the exact record first ("On Sep 5 at 21:14 y
 | For | Claude, ChatGPT | Any AI |
 | Recording | Your words are kept automatically as you chat | No daily log, just one "about me" card |
 | Finding | The AI can find the exact day and sentence | Every chat can read the card |
-| Available now? | Claude desktop: build and install it yourself; online (Claude web/mobile, ChatGPT): code is ready, **no public address yet** | ✅ Today |
+| Phone | Claude app ✅ (add once on the web, syncs to iPhone/Android); ChatGPT app needs a published app (review not guaranteed) | ✅ |
+| Available now? | Code is ready; **a public address still has to be deployed** (one-click config included) | ✅ Today |
 
 ### 🗂️ Memory archive
 
@@ -162,7 +165,7 @@ When you talk to an AI, it looks up the exact record first ("On Sep 5 at 21:14 y
 - **Exact, not guessed**: the AI quotes your words with date and time, or says "no record".
 - **Deleting is deliberate**: a deleted record is hidden now and removed after 7 days (undo until then). In an emergency, destroy the whole archive from your private page.
 
-**How**: install `personal-memory.mcpb` in Claude desktop (your memory stays on your computer), or create an online archive and add its private link once as a connector in Claude or in ChatGPT's developer mode. The extension will appear under [Releases](https://github.com/IcantFind-a-username/my-memory/releases); the online version still needs a hosted address. See the [online connector guide](docs/CONNECTOR.md) to try or self-host it.
+**How**: in Claude (web, iPhone, Android, desktop), add the connector `<address>/mcp` once on claude.ai and sign in to a new or existing archive; the phone apps sync. ChatGPT needs the published app (phone and web), or developer mode on the web before that. Claude desktop users who want nothing on a server can install `personal-memory.mcpb` instead. The extension will appear under [Releases](https://github.com/IcantFind-a-username/my-memory/releases); the online version still needs a hosted address. See the [online connector guide](docs/CONNECTOR.md) to try or self-host it.
 
 **Where it lives**: on your computer (desktop), or as encrypted data on the server (online), where the key comes from your private link and the server never stores it. The link is the only key: don't share it, and keep it safe; a lost link can't be recovered. In both cases, the few records needed for an answer go to the AI company you're using (Anthropic or OpenAI).
 
@@ -215,11 +218,11 @@ npm run build
 npm run serve
 ```
 
-- `npm test`: 49 tests, including the real MCP server process, the online connector over HTTP (encryption at rest, isolation), the record chain, and the capsule bundle
+- `npm test`: 54 tests, including the real MCP server process, the online connector over HTTP (OAuth 2.1 sign-in with DCR + PKCE, encryption at rest, isolation, revocation), the record chain, and the capsule bundle
 - `npm run build`: the Claude Desktop extension, the Skill and the Memory Capsule into `dist/`
 - `npm run serve`: the online connector on port 8787 (see [CONNECTOR.md](docs/CONNECTOR.md) for HTTPS and deployment; a `Dockerfile` is included)
 
-Docs 文档: [DESIGN.md](docs/DESIGN.md) · [CONNECTOR.md](docs/CONNECTOR.md) · [THREAT_MODEL.md](docs/THREAT_MODEL.md) · [SELF_REVIEW.md](docs/SELF_REVIEW.md) · [Agent Skill](skill/personal-memory/SKILL.md)
+Docs 文档: [DESIGN.md](docs/DESIGN.md) · [CONNECTOR.md](docs/CONNECTOR.md) · [CHATGPT_APP.md](docs/CHATGPT_APP.md) · [THREAT_MODEL.md](docs/THREAT_MODEL.md) · [SELF_REVIEW.md](docs/SELF_REVIEW.md) · [Agent Skill](skill/personal-memory/SKILL.md)
 
 Contributions are very welcome, especially from people with lived experience, clinicians, and translators. 欢迎贡献，特别欢迎有亲身经历的朋友、专业人员和译者。
 

@@ -1,0 +1,15 @@
+# One-click deploy on Render: New → Blueprint → pick this repository.
+# A persistent disk needs a paid instance; the disk holds only encrypted data.
+services:
+  - type: web
+    name: my-memory
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: memory-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PERSONAL_MEMORY_SECRET
+        generateValue: true

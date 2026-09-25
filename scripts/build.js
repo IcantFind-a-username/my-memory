@@ -86,7 +86,7 @@ function buildMcpb() {
       files.push({ name: `src/${sub}/${f}`, data: fs.readFileSync(path.join(root, 'src', sub, f)) });
     }
   }
-  const icon = path.join(root, 'packaging/claude-desktop/icon.png');
+  const icon = path.join(root, 'packaging/icon.png');
   if (fs.existsSync(icon)) files.push({ name: 'icon.png', data: fs.readFileSync(icon) });
   const file = path.join(dist, 'personal-memory.mcpb');
   fs.writeFileSync(file, zip(files));
